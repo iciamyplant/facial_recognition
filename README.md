@@ -38,3 +38,13 @@ while True:
 ```
 
 [Enable Webcam on VM](https://www.youtube.com/watch?v=ec4-1gF-cNU)
+
+
+
+Tutorials
+- https://www.youtube.com/watch?v=5yPeKQzCPdI
+- https://www.youtube.com/watch?v=pQvkoaevVMk
+- https://www.youtube.com/watch?v=vA-JiuYX--Y
+- https://www.youtube.com/watch?v=PdkPI92KSIs
+- https://towardsdatascience.com/building-fast-facial-recognition-for-videos-and-images-7b9f3e7c240c
+
