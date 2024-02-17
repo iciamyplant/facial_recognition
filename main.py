@@ -6,7 +6,8 @@ from simplefacerec import SimpleFacerec
 sfr = SimpleFacerec()
 sfr.load_encoding_images("Known_Faces/")
 
-cap = cv2.VideoCapture("prisonbreak_scene.avi")
+#cap = cv2.VideoCapture("prisonbreak_scene.avi")
+cap = cv2.VideoCapture(0)
 
 while True:
     ret, frame = cap.read()
