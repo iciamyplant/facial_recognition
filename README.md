@@ -28,13 +28,30 @@ Many common features on a human face like: two eyes, two eyebrowns, one mouth, o
 <p align="center">
 <img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/594b9497-ff00-403a-ad79-86e54dd49637">
 <p align="center">
-  
 
-3. an integral image is calculated to fasten the processing
-Mais pas possible de faire les calculs en testant les features sur toute l'image. In a 24*24 resolution image, there are 180k+ features, not all are usefull. So the goal is to only use the useful features and reduce processing time. Integral image is a solution : In an integral image, every pixel is the summation of the pixels above and to the left of it (voir vidéo explication avec exemple).
+Mais difficile de faire les calculs en testant les features sur toute l'image. In a 24*24 resolution image, there are 180k+ features, not all are usefull. So the goal is to only use the useful features and reduce processing time. Integral image is a solution to fasten the processing time
 
-5. adaboost training to properly locate and train the features and pour améliorer the processing time
-6. cascading to distinguish whether an image contains a face or not
+3. an integral image is calculated to fasten the processing : in an integral image, every pixel is the summation of the pixels above and to the left of it (voir vidéo explication avec exemple).
+
+4. adaboost training to properly locate and train the features and pour améliorer the processing time
+
+All these feature detectors by their own are unable to perform good predictions, so they are considered weak classifiers. But what if we could use a lot of these weak classifiers at the same time in order to create a strong one ?
+Not all features are needed. We need to eliminate the undesired features to fasten the process and get accurate results. We need to train the features on the images to only use the right features in the right place. 
+- provide lots of facial image data to the algorithm training and non-facial images for differenciation.
+- Between the useful features, not all of them are of the same significance. Therefore, the creators of Viola Jones proposed what is called a strong feature combining weak features with their respective weights (= on combine des features faibles avec leurs poids respectifs, ce qui crée une feature forte). Combining features together is what make them strong. How can we find the weights of each feature ?
+- We give the system facial images indicating that they are positive examples and non facial images
+- Initialize weights for each image
+- for each classifier, we normalize the weights. A classifier with one feature is used and trained on all images and the error is computed. If a face is detected on a facial image, the error is 0. Otherwise error is 1. Inversement for non facial images. The error is then multiplied by the significance of the image. The lower error is chosen, and the weights are updated
+
+==> it's mathematical operations but the idea is that we are trying to classify images as faces or non-faces, so essentially what this algorithm does is to penalize more those misclassified images (false positives and negatives) by incrementing its weights (this is their importance), so the algorithm is going to look for features that better adapt to the picture. Algorithm tries to reduce the error, iteration after iteration
+
+==> it's mathematical operations but the idea is that we are trying to classify images as faces or non-faces, donc l'algo va 
+- run et dire si telle ou telle image est un visage ou non
+- calculer un taux d'erreur basé sur la somme pondérée des instances où la classification a été mauvaise, le but étant de réduire ce taux d'erreur
+- mettre à jour les poids (l'importance de chaque feature) selon un processus itératif, en pénalisant davantage les images mal classées (faux positifs et négatifs)
+Dans le but donc de rechercher des caractéristiques qui s'adaptent mieux à l'image. 
+
+5. cascading to distinguish whether an image contains a face or not
 
 
 # 1. Les réseaux de neurones convolutifs
