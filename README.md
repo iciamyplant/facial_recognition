@@ -1,8 +1,17 @@
 # Projet : 
-1. coder un algo de detection du visage from scratch : problème de regression, but est de prédire les coordonnées (continues) du rectangle entourant le visage
+1. Detection du visage
 2. coder un algo qui classifie le visage : Nom, genre H/F = classification, le but est d'associer un label à une image + âge = regression pour prédire un nombre
 3. coder un algo de détection d'objets dangereux ?
 4. utiliser les librairies ou des modèles pré-entrainés pour l'expérience finale
+
+# 1. Detection du visage
+
+
+Face detection = computer vision task in which we detect the presence of human faces and its location (x1, y1, x2, y2) within an image or a video stream. C'est un problème de regression, le but est de prédire les coordonnées (continues) du rectangle entourant le visage, cordonnée en haut à gauche (x1,y1) et coordonnée en bas à droite (x2,y2). Plusieurs obstacles : occlusion, orientation of face, expression, lighting, accessories. Au fil de temps nombreuses avancées : Viola Jones Algorithm, Histogram of oriented gradients HOG, FDDB, Anootated Faces in the Wild, Pascal Face, SSD, MTCNN, UFDD, RetinaFace, MediaPipe, YuNet. 
+
+#### Viola-Jones Algorithm
+
+Many techniques for objects detection, and face detection using Viol-Jones Algorithm is one of theses techniques.
 
 
 
