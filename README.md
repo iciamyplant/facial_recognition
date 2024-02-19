@@ -25,7 +25,10 @@ Viola-Jones Algorithm was created mainly to work with frontal faces and operate 
 
 Many common features on a human face like: two eyes, two eyebrowns, one mouth, one nose ==> we can say that the human face has a pattern ==> we have to detect thoses features. Alfred Haar created features detector, and these detectors will look for specific places where they can fit, checking different sections of the image and look for patterns where each individual Haar feature detector can fit in to. Haar features are rectangular regions masked over an image. Within each rectangle, the summation of pixels is calculated and then the difference between the black and white regions is calculated. For exemple, eyes region is darker than cheeks. Then, renvoit une valeur totale qui doit être supérieure à un seuil pour considérer qu'il y a bien un visage.
 
-![exampleharr](https://github.com/iciamyplant/facial_recognition/assets/57531966/bbc49cb2-fa3d-46eb-bc42-e3eff7b07841)
+<p align="center">
+<img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/594b9497-ff00-403a-ad79-86e54dd49637">
+<p align="center">
+  
 
 3. an integral image is calculated to fasten the processing
 Mais pas possible de faire les calculs en testant les features sur toute l'image. In a 24*24 resolution image, there are 180k+ features, not all are usefull. So the goal is to only use the useful features and reduce processing time. Integral image is a solution : In an integral image, every pixel is the summation of the pixels above and to the left of it (voir vidéo explication avec exemple).
