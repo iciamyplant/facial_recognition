@@ -52,6 +52,9 @@ Not all features are needed. We need to eliminate the undesired features to fast
 Dans le but donc de rechercher des caractéristiques qui s'adaptent mieux à l'image. 
 
 5. cascading to distinguish whether an image contains a face or not
+Après avoir performing the adaboost training, on a la first and second most important features. Feature on the eyes and chins, where the eyes are darker than chins is the most significant. The second one indicates that the bridge of the nose is brighter than its surroundings. A fast way to check if the image contains a facial feature is to cascade the classifiers. If the first feature is approuved then it moves on for the second classifier until all of the features are approved. Then a face is detected. Much faster then trying all of the face detecting features.
+
+![résumé du process](https://github.com/iciamyplant/facial_recognition/assets/57531966/3da197a5-8525-4aeb-82cb-a034d64e84dc)
 
 
 # 1. Les réseaux de neurones convolutifs
