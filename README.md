@@ -11,7 +11,7 @@ Computer vision =  discipline informatique permettant de construire des système
 Face detection = computer vision task in which we detect the presence of human faces and its location (x1, y1, x2, y2) within an image or a video stream. C'est un problème de regression, le but est de prédire les coordonnées (continues) du rectangle entourant le visage, cordonnée en haut à gauche (x1,y1) et coordonnée en bas à droite (x2,y2). Plusieurs obstacles à la detection : occlusion, orientation of face, expression, lighting, accessories. Au fil de temps nombreuses avancées : Viola Jones Algorithm, Histogram of oriented gradients (HOG), FDDB, *advent of deep learning techniques 2012, more robust face detectors have been developed*, Anootated Faces in the Wild, Pascal Face, SSD(slower then HOG), MTCNN (CNNs connected in a cascated manner, not fast for real time applications), UFDD, RetinaFace, MediaPipe (super real time performances), YuNet. 
 
 
-#### Viola-Jones Algorithm
+### Viola-Jones Algorithm
 
 Nous allons implémenter un système de detection faciale utilisant Viola-Jones algorithm, easiest face recognition system you can create, but there are more advanced techniques to do the same project. L'objectif ici est surtout d'avoir un aperçu des bases du fonctionnement des systèmes de détection d'objets. 
 [Official Paper](https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf)
@@ -55,6 +55,27 @@ Dans le but donc de rechercher des caractéristiques qui s'adaptent mieux à l'i
 Après avoir performing the adaboost training, on a la first and second most important features. Feature on the eyes and chins, where the eyes are darker than chins is the most significant. The second one indicates that the bridge of the nose is brighter than its surroundings. A fast way to check if the image contains a facial feature is to cascade the classifiers. If the first feature is approuved then it moves on for the second classifier until all of the features are approved. Then a face is detected. Much faster then trying all of the face detecting features.
 
 ![résumé du process](https://github.com/iciamyplant/facial_recognition/assets/57531966/3da197a5-8525-4aeb-82cb-a034d64e84dc)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # 1. Les réseaux de neurones convolutifs
