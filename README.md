@@ -6,14 +6,25 @@
 
 # 1. Detection du visage
 
-Computer vision =  discipline informatique permettant de construire des systèmes qui obtiennent des informations à partir d'images. Les images étant un ensemble de nombres avec une certaine structure, une matrice. Dans le cas d'une image en niveaux de gris, chaque nombre (pixel) représente une intensité différente allant de 0 (blanc) à 1 (noir pur) ==> de 0 à 255. Si nous travaillons avec des images colorées, alors nous avons trois canaux différents (RVB), nous avons donc la même image précédente mais trois fois, chaque matrice représentant une intensité de couleur différente.
+Computer vision =  discipline informatique permettant de construire des systèmes qui obtiennent des informations à partir d'images. Les images étant un ensemble de nombres avec une certaine structure, une matrice. Dans le cas d'une image en niveaux de gris, chaque nombre (pixel) représente une intensité différente allant de 0 (blanc) à 1 (noir pur) ==> de 0 à 255. Si nous travaillons avec des images colorées, alors nous avons trois canaux différents (RVB), nous avons donc la même image précédente mais trois fois, chaque matrice représentant une intensité de couleur différente ==> 0.0.0 à 255.255.255
 
+Face detection = computer vision task in which we detect the presence of human faces and its location (x1, y1, x2, y2) within an image or a video stream. C'est un problème de regression, le but est de prédire les coordonnées (continues) du rectangle entourant le visage, cordonnée en haut à gauche (x1,y1) et coordonnée en bas à droite (x2,y2). Plusieurs obstacles à la detection : occlusion, orientation of face, expression, lighting, accessories. Au fil de temps nombreuses avancées : Viola Jones Algorithm, Histogram of oriented gradients (HOG), FDDB, *advent of deep learning techniques 2012, more robust face detectors have been developed*, Anootated Faces in the Wild, Pascal Face, SSD(slower then HOG), MTCNN (CNNs connected in a cascated manner, not fast for real time applications), UFDD, RetinaFace, MediaPipe (super real time performances), YuNet. 
 
-Face detection = computer vision task in which we detect the presence of human faces and its location (x1, y1, x2, y2) within an image or a video stream. C'est un problème de regression, le but est de prédire les coordonnées (continues) du rectangle entourant le visage, cordonnée en haut à gauche (x1,y1) et coordonnée en bas à droite (x2,y2). Plusieurs obstacles : occlusion, orientation of face, expression, lighting, accessories. Au fil de temps nombreuses avancées : Viola Jones Algorithm, Histogram of oriented gradients (HOG), FDDB, *advent of deep learning techniques 2012, more robust face detectors have been developed* Anootated Faces in the Wild, Pascal Face, SSD(slower then HOG), MTCNN (CNNs connected in a cascated manner, not fast for real time applications), UFDD, RetinaFace, MediaPipe (super real time performances), YuNet. 
 
 #### Viola-Jones Algorithm
 
-Many techniques for objects detection, and face detection using Viol-Jones Algorithm is one of theses techniques. Easiest face recognition system you can create, but there are more advanced techniques to do the same project, mais l'objectif ici est surtout de comprendre le fonctionnement des systèmes de détection d'objets. Viola-Jones Algorithm was created mainly to work with frontal faces and operate with grayscale images.
+Nous allons implémenter un système de detection faciale utilisant Viola-Jones algorithm, easiest face recognition system you can create, but there are more advanced techniques to do the same project. L'objectif ici est surtout d'avoir un aperçu des bases du fonctionnement des systèmes de détection d'objets. 
+[Official Paper](https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf)
+[Bonne vidéo](https://www.youtube.com/watch?v=p9vq90NYHMs)
+[Tutoriel débutant](https://medium.com/@juanlux7/creating-a-face-recognition-system-from-scratch-83b709cd0560)
+
+Viola-Jones Algorithm was created mainly to work with frontal faces and operate with grayscale images. The way it works is by applying some kind of filter (kernel) throughout the whole image (pretty similar to what a Convolutional Neural network does), starting from the top left corner and checking each pixel, and while doing that is looking for human features like eyebrows, eyes, noses etc. Et pour ça, voilà les étapes :
+
+1. input the desired image to the system in greyscale
+2. Haar feature selection is used to detect the features of a face
+3. an integral image is calculated to fasten the processing
+4. adaboost training to properly locate and train the features and pour améliorer the processing time
+5. cascading to distinguish whether an image contains a face or not
 
 
 # 1. Les réseaux de neurones convolutifs
