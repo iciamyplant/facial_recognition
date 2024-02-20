@@ -1,8 +1,7 @@
 # Projet : 
 1. Detection du visage
-2. coder un algo qui classifie le visage : Nom, genre H/F = classification, le but est d'associer un label à une image + âge = regression pour prédire un nombre
-3. coder un algo de détection d'objets dangereux ?
-4. utiliser les librairies ou des modèles pré-entrainés pour l'expérience finale
+2. Facial recognition
+4. Utiliser des modèles pré-entrainés pour l'expérience finale
 
 # 1. Detection du visage
 
@@ -97,8 +96,6 @@ On transforme le classificateur fort (constitué de milliers de classificateurs 
 ### Face detection model from scratch
 
 
-
-
 ### Face detection using pre-trained model
 
 [CNN Tutorial pre trained model](https://realpython.com/face-recognition-with-python/#prerequisites)
@@ -120,6 +117,53 @@ face_recognition to detect the face in each image and get its encoding. This is 
 
 
 
+# 2. Facial recognition 
+
+**Facial recognition** = involves identifying the face in the image as belonging to person X and not person Y
+**Facial analysis** = tries to understand something about people from their facial features, like determining their age, gender, or the emotion they are displaying.
+**Facial tracking** = is mostly present in video analysis and tries to follow a face and its features (eyes, nose, and lips) from frame to frame
+
+Objectif : réussir à reconnaître le visage + analyser le genre et la tranche d'âge
+
+
+### from scratch
+classification, le but est d'associer un label à une image
+Ici on aura besoin d’une base de donnée de nos visages et d’entrainer sur les labels qu’on veut, en choisissant bien les bonnes fonction de pertes en sortie du réseau (cross entropy pour classification, mean average error (ou MSE, RMSE) pour regression)
+[Age Estimation Bdd](https://paperswithcode.com/datasets?task=age-estimation&page=1)
+[best datasets for emotion detection](https://paperswithcode.com/datasets?task=age-estimation&page=1)
+[YouTube Faces Database](https://www.cs.tau.ac.il/~wolf/ytfaces/)
+
+
+### with pre-trained model
+
+[Face Recognition Model Using Transfer Learning - Medium](https://python.plainenglish.io/face-recognition-model-using-transfer-learning-9554340e6c9d)
+[Face recognition using Transfer learning and VGG16 - Medium](https://medium.com/analytics-vidhya/face-recognition-using-transfer-learning-and-vgg16-cf4de57b9154)
+[Face Recognition using Transfer Learning on MobileNet - Medium](https://medium.com/analytics-vidhya/face-recognition-using-transfer-learning-on-mobilenet-cf632e25353e)
+
+[Real-Time Face Recognition: An End-To-End Project - ](https://towardsdatascience.com/real-time-face-recognition-an-end-to-end-project-b738bb0f7348)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------- BROUILLON ---------------------------------------------------
 
 
 
@@ -143,30 +187,6 @@ L’idée générale est que le réseau va apprendre par lui même ou regarder s
 
 ![process](https://github.com/iciamyplant/facial_recognition/assets/57531966/77f8cab4-b79b-42ba-b47d-2043f02bce48)
 
-
-
-
-# 3. Algo de classification du visage : Nom, H/F, âge
-
-**Facial recognition** = involves identifying the face in the image as belonging to person X and not person Y. It is often used for biometric purposes, like unlocking your smartphone
-**Facial analysis** = tries to understand something about people from their facial features, like determining their age, gender, or the emotion they are displaying.
-**Facial tracking** = is mostly present in video analysis and tries to follow a face and its features (eyes, nose, and lips) from frame to frame. The most popular applications are various filters available in mobile apps like Snapchat.
-
-- Nom, H/F = Classifiction du visage
-- Age = Regression
-- Emotion ?
-
-Ici on aura besoin d’une base de donnée de nos visages et d’entrainer sur les labels qu’on veut, en choisissant bien les bonnes fonction de pertes en sortie du réseau (cross entropy pour classification, mean average error (ou MSE, RMSE) pour regression)
-[Age Estimation Bdd](https://paperswithcode.com/datasets?task=age-estimation&page=1)
-[best datasets for emotion detection](https://paperswithcode.com/datasets?task=age-estimation&page=1)
-[YouTube Faces Database](https://www.cs.tau.ac.il/~wolf/ytfaces/)
-
-
-[Face Recognition Model Using Transfer Learning - Medium](https://python.plainenglish.io/face-recognition-model-using-transfer-learning-9554340e6c9d)
-[Face recognition using Transfer learning and VGG16 - Medium](https://medium.com/analytics-vidhya/face-recognition-using-transfer-learning-and-vgg16-cf4de57b9154)
-[Face Recognition using Transfer Learning on MobileNet - Medium](https://medium.com/analytics-vidhya/face-recognition-using-transfer-learning-on-mobilenet-cf632e25353e)
-
-[Real-Time Face Recognition: An End-To-End Project - ](https://towardsdatascience.com/real-time-face-recognition-an-end-to-end-project-b738bb0f7348)
 
 # 4. with Opencv & Face recognition
 
