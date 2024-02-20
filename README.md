@@ -6,9 +6,13 @@
 
 # 1. Detection du visage
 
-Computer vision =  discipline informatique permettant de construire des systèmes qui obtiennent des informations à partir d'images. Les images étant un ensemble de nombres avec une certaine structure, une matrice. Dans le cas d'une image en niveaux de gris, chaque nombre (pixel) représente une intensité différente allant de 0 (blanc) à 1 (noir pur) ==> de 0 à 255. Si nous travaillons avec des images colorées, alors nous avons trois canaux différents (RVB), nous avons donc la même image précédente mais trois fois, chaque matrice représentant une intensité de couleur différente ==> 0.0.0 à 255.255.255
+**Computer vision** =  discipline informatique permettant de construire des systèmes qui obtiennent des informations à partir d'images. Les images étant un ensemble de nombres avec une certaine structure, une matrice. Dans le cas d'une image en niveaux de gris, chaque nombre (pixel) représente une intensité différente allant de 0 (blanc) à 1 (noir pur) ==> de 0 à 255. Si nous travaillons avec des images colorées, alors la même matrice que ci-dessous, mais en 3 fois (RVB), chaque matrice représentant une intensité de couleur différente ==> 0.0.0 à 255.255.255
 
-Face detection = computer vision task in which we detect the presence of human faces and its location (x1, y1, x2, y2) within an image or a video stream. C'est un problème de regression, le but est de prédire les coordonnées (continues) du rectangle entourant le visage, cordonnée en haut à gauche (x1,y1) et coordonnée en bas à droite (x2,y2). Plusieurs obstacles à la detection : occlusion, orientation of face, expression, lighting, accessories. Au fil de temps nombreuses avancées : Viola Jones Algorithm, Histogram of oriented gradients (HOG), FDDB, *advent of deep learning techniques 2012, more robust face detectors have been developed*, Anootated Faces in the Wild, Pascal Face, SSD(slower then HOG), MTCNN (CNNs connected in a cascated manner, not fast for real time applications), UFDD, RetinaFace, MediaPipe (super real time performances), YuNet. 
+<p align="center">
+<img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/cf9ced56-1a3c-4554-8a00-8a64792d9d13">
+<p align="center">
+
+**Face detection** = computer vision task in which we detect the presence of human faces and its location (x1, y1, x2, y2) within an image or a video stream. C'est un problème de regression, le but est de prédire les coordonnées (continues) du rectangle entourant le visage, cordonnée en haut à gauche (x1,y1) et coordonnée en bas à droite (x2,y2). Plusieurs obstacles à la détection : occlusion, orientation of face, expression, lighting, accessories. Au fil de temps nombreuses avancées : Viola Jones Algorithm, Histogram of oriented gradients (HOG), FDDB, *advent of deep learning techniques 2012, more robust face detectors have been developed*, Anootated Faces in the Wild, Pascal Face, SSD (slower then HOG), MTCNN (CNNs connected in a cascated manner, not fast for real time applications), UFDD, RetinaFace, MediaPipe (super real time performances), YuNet. 
 
 
 ### Viola-Jones Algorithm
@@ -58,13 +62,19 @@ Après avoir performing the adaboost training, on a la first and second most imp
 
 
 
+### Viola-Jones Algorithm implementation
 
 
 
 
 
+### CNN Model implementation
 
+[Tutorial](https://realpython.com/face-recognition-with-python/#prerequisites)
 
+### Face detection using pre-trained model
+
+[Face detection using pre-trained model - Google Collab](https://colab.research.google.com/github/dortmans/ml_notebooks/blob/master/face_detection.ipynb)
 
 
 
@@ -98,12 +108,15 @@ L’idée générale est que le réseau va apprendre par lui même ou regarder s
 
 ![process](https://github.com/iciamyplant/facial_recognition/assets/57531966/77f8cab4-b79b-42ba-b47d-2043f02bce48)
 
-# 2. Algo de detection du visage from scratch
 
-[Face detection using pre-trained model - Google Collab](https://colab.research.google.com/github/dortmans/ml_notebooks/blob/master/face_detection.ipynb)
 
 
 # 3. Algo de classification du visage : Nom, H/F, âge
+
+**Facial recognition** = involves identifying the face in the image as belonging to person X and not person Y. It is often used for biometric purposes, like unlocking your smartphone
+**Facial analysis** = tries to understand something about people from their facial features, like determining their age, gender, or the emotion they are displaying.
+**Facial tracking** = is mostly present in video analysis and tries to follow a face and its features (eyes, nose, and lips) from frame to frame. The most popular applications are various filters available in mobile apps like Snapchat.
+
 - Nom, H/F = Classifiction du visage
 - Age = Regression
 - Emotion ?
