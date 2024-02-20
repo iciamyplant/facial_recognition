@@ -16,12 +16,13 @@
 **Feature** = Pour détecter des visages (ou objets), l'ordinateur s'appuie sur des features = is a piece of information in an image that is relevant to solving a certain problem. It could be something as simple as a single pixel value, or more complex like edges, corners, and shapes. You can combine multiple simple features into a complex feature. Applying certain operations to an image produces information that could be considered features as well. Computer vision and image processing have a large collection of useful features and feature extracting operations.
 
 
-### Viola-Jones Algorithm : understand the basis
+### Viola-Jones Algorithm : understand the basics
 
 Nous allons implémenter un système de detection faciale utilisant Viola-Jones algorithm, easiest face recognition system you can create, but there are more advanced techniques to do the same project. L'objectif ici est surtout d'avoir un aperçu des bases du fonctionnement des systèmes de détection d'objets. Viola-Jones Algorithm was created mainly to work with frontal faces and operate with grayscale images, donc input image doit etre in grayscale. À partir de cette image, l’algorithme examine de nombreuses sous-régions plus petites et tente de trouver un visage en recherchant des caractéristiques spécifiques dans chaque sous-région. Il doit vérifier de nombreuses positions et échelles différentes, car une image peut contenir de nombreux visages de différentes tailles
 [Official Paper](https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf)
 [Bonne vidéo](https://www.youtube.com/watch?v=p9vq90NYHMs)
 [Tutoriel](https://realpython.com/traditional-face-detection-python/)
+[Example of a Viola-Jones Algorithm from scratch](https://github.com/sunsided/viola-jones-adaboost/blob/master/viola-jones.ipynb)
 
 Etapes :
 1. Selecting Haar-like features
@@ -93,11 +94,39 @@ On transforme le classificateur fort (constitué de milliers de classificateurs 
 ![résumé du process](https://github.com/iciamyplant/facial_recognition/assets/57531966/3da197a5-8525-4aeb-82cb-a034d64e84dc)
 
 
+
 ### Face detection model from scratch
+
+
+### Face detection with CNN (= réseaux de neurones convolutifs)
+TensorFlow, Pytorch
+
+- the input will be the individuals pixels
+- and the oupout the patterns we are trying to classify
+
+Ici on va utiliser du Deep Learning (apprentissage profond et réseaux de neurones), fonctionne particulièrement bien sur les données non structurées (information that is not arranged according to a preset data model or schema, pas besoin de la traiter avant utilisation) type image ou texte. Mais on va pas faire un réseau classique avec plein de couches de neurones successives, on va faire ce qu’on **appelle un CNN (Convolutional Neural Network) qui se base sur des filtres de convolutions** et qui sont particulièrement adpatés aux images
+[Explication video debutant](https://www.youtube.com/watch?v=QzY57FaENXg)
+
+**Un filtre de convolution** = matrice qui va traverser toute l’image de gauche à droite et de bas en haut en appliquant successivement des opérations de convolution, i.e. des sommes de produits termes à termes. Quand un filtre se propage sur une image, il somme les résultats de ces opérations de convolution sur les différents canaux de couleur. Cette logique est généralisable à toute donnée d’input qui est composée de plusieurs couches de matrices à 2 dimensions.
+
+![filtreconvolution](https://github.com/iciamyplant/facial_recognition/assets/57531966/915a15cc-d503-4b3b-a1a7-40e28b520edc)
+
+On appelle ca un filtre car ca va modifier l’image en gros, par exemple t’as des filtres qui affichent le gradient ou qui détectent les bords, ce genre de trucs.
+
+![applicationfiltre](https://github.com/iciamyplant/facial_recognition/assets/57531966/660e37d0-b299-417f-9818-77c54c1ffb7d)
+
+On va donc appliquer plusieurs couches de convolutions les unes après les autres, ce qui va en fait correspondre à la phase de "feature extraction”. On va ensuite applatir notre dernière image, utiliser le vecteur qui nous est donné dans un réseau dense et confronter la prédicition qui est faite avec la réalité. Encore une fois on a une fonction de perte à minimiser, le but est qu’au fur et à mesure, les prédicitions soient de plus en plus proches de la réalité en optimisant les paramètres des filtres à chaque fois qu’on passe dans le réseau.
+
+L’idée générale est que le réseau va apprendre par lui même ou regarder sur l’image grâce aux différents filtres, en fonction de la classification/régression qu’on a envie de faire.
+
+![process](https://github.com/iciamyplant/facial_recognition/assets/57531966/77f8cab4-b79b-42ba-b47d-2043f02bce48)
+
+
+
+### Face detection using pre-trained model : Python and Tensorflow with VGG16 pre-trained
 
 [Tutoriel, Face Detection Model with Python and Tensorflow from scratch](https://www.youtube.com/watch?v=N_W4EYtsa10)
 
-### Face detection using pre-trained model
 
 [CNN Tutorial pre trained model](https://realpython.com/face-recognition-with-python/#prerequisites)
 [Face detection using pre-trained model - Google Collab](https://colab.research.google.com/github/dortmans/ml_notebooks/blob/master/face_detection.ipynb)
@@ -127,15 +156,16 @@ face_recognition to detect the face in each image and get its encoding. This is 
 Objectif : réussir à reconnaître le visage + analyser le genre et la tranche d'âge
 
 
-### from scratch
-classification, le but est d'associer un label à une image
+### Classification h/f et âge from scratch
+Classification, le but est d'associer un label à une image
 Ici on aura besoin d’une base de donnée de nos visages et d’entrainer sur les labels qu’on veut, en choisissant bien les bonnes fonction de pertes en sortie du réseau (cross entropy pour classification, mean average error (ou MSE, RMSE) pour regression)
+
 [Age Estimation Bdd](https://paperswithcode.com/datasets?task=age-estimation&page=1)
 [best datasets for emotion detection](https://paperswithcode.com/datasets?task=age-estimation&page=1)
 [YouTube Faces Database](https://www.cs.tau.ac.il/~wolf/ytfaces/)
 
 
-### with pre-trained model
+### with pre-trained model - OpenCV et facial_recognition
 
 [Face Recognition Model Using Transfer Learning - Medium](https://python.plainenglish.io/face-recognition-model-using-transfer-learning-9554340e6c9d)
 [Face recognition using Transfer learning and VGG16 - Medium](https://medium.com/analytics-vidhya/face-recognition-using-transfer-learning-and-vgg16-cf4de57b9154)
@@ -168,25 +198,7 @@ Ici on aura besoin d’une base de donnée de nos visages et d’entrainer sur l
 
 
 
-# 1. Les réseaux de neurones convolutifs
 
-Tous ces algos se basent sur les mêmes concepts, les réseaux de neurones convolutifs.
-
-Ici on va utiliser du Deep Learning, c’est un pan de l’intelligence artificielle qui se base sur l’apprentissage profond et les réseaux de neurones, et ca marche particulièrement bien sur les données non structurées (information that is not arranged according to a preset data model or schema, pas besoin de la traiter avant utilisation) type image ou texte. La on va pas faire un réseau classique avec plein de couches de neurones successives, on va faire ce qu’on **appelle un CNN (Convolutional Neural Network) qui se base sur des filtres de convolutions** et qui sont particulièrement adpatés aux images.
-
-**Un filtre de convolution** c’est une matrice qui va traverser toute l’image de gauche à droite et de bas en haut en appliquant successivement des opérations de convolution, i.e. des sommes de produits termes à termes. Quand un filtre se propage sur une image, il somme les résultats de ces opérations de convolution sur les différents canaux de couleur. Cette logique est généralisable à toute donnée d’input qui est composée de plusieurs couches de matrices à 2 dimensions.
-
-![filtreconvolution](https://github.com/iciamyplant/facial_recognition/assets/57531966/915a15cc-d503-4b3b-a1a7-40e28b520edc)
-
-On appelle ca un filtre car ca va modifier l’image en gros, par exemple t’as des filtres qui affichent le gradient ou qui détectent les bords, ce genre de trucs.
-
-![applicationfiltre](https://github.com/iciamyplant/facial_recognition/assets/57531966/660e37d0-b299-417f-9818-77c54c1ffb7d)
-
-On va donc appliquer plusieurs couches de convolutions les unes après les autres, ce qui va en fait correspondre à la phase de "feature extraction”. On va ensuite applatir notre dernière image, utiliser le vecteur qui nous est donné dans un réseau dense et confronter la prédicition qui est faite avec la réalité. Encore une fois on a une fonction de perte à minimiser, le but est qu’au fur et à mesure, les prédicitions soient de plus en plus proches de la réalité en optimisant les paramètres des filtres à chaque fois qu’on passe dans le réseau.
-
-L’idée générale est que le réseau va apprendre par lui même ou regarder sur l’image grâce aux différents filtres, en fonction de la classification/régression qu’on a envie de faire.
-
-![process](https://github.com/iciamyplant/facial_recognition/assets/57531966/77f8cab4-b79b-42ba-b47d-2043f02bce48)
 
 
 # 4. with Opencv & Face recognition
