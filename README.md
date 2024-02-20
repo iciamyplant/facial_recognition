@@ -58,32 +58,34 @@ But how do you decide which of these features and in what sizes to use for findi
 Boosting is based on the following question: “Can a set of weak learners create a single strong learner?” 
 - **A weak learner (or weak classifier)** = is defined as a classifier that is only slightly better than random guessing. In face detection, this means that a weak learner can classify a subregion of an image as a face or not-face only slightly better than random guessing. In the Viola-Jones algorithm, each Haar-like feature represents a weak learner, by their own the detectors are unable to perform realy good predictions
 - **A strong learner** = is substantially better at picking faces from non-faces.
-- ==> The power of boosting comes from combining many (thousands) of weak classifiers into a single strong classifier
+- So the power of boosting comes from combining many (thousands) of weak classifiers into a single strong classifier
 
 ![weakstrongclassifier](https://github.com/iciamyplant/facial_recognition/assets/57531966/770920d5-6e09-4be3-84c2-70057d1ded08)
 
-Fonctionnement Adaboost training : pour décider du type et de la taille d'une feature qui entre dans le classificateur final, AdaBoost vérifie les performances de chaque feature qu'on lui fournit. 
+Comment décider du type et de la taille d'une feature qui entre dans le classificateur final ? Pour ça, Adaboost training, on entraîne le modèle avec un grand nombre d'images. 
+
+AdaBoost vérifie les performances de chaque feature qu'on lui fournit. 
 Pour calculer les performances d'une feature (weak classificateur), vous l'évaluez sur toutes les sous-régions de toutes les images utilisées pour l'entraînement. Certaines sous-régions produiront une réponse forte. Celles-ci seront classées comme positives, ce qui signifie que le weak classifier pense qu’elle contiennent un visage humain. Les sous-régions qui ne produisent pas de réponse forte ne contiennent pas de visage humain d'après le weak classifier, donc elles sont classées comme négatives.
 Les weak classifiers qui ont bien fonctionné se voient attribuer une signifiance ou un poids plus élevé. Le résultat final est un classifier fort, également appelé boosted classifier, qui contient les weak classifiers les plus performants.
 
-- We give the system facial images (positive examples) and non facial images (negative examples)
-- Initialize weights for each image
-- for each classifier, we normalize the weights. A classifier with one feature is used and trained on all images and the error is computed. If a face is detected on a facial image, the error is 0. Otherwise error is 1. Inversement for non facial images. The error is then multiplied by the significance of the image. The lower error is chosen, and the weights are updated
+1. We give the system facial images (positive examples) and non facial images (negative examples)
+2. Initialize weights for each image
+3. For each classifier :
+-  + We normalize the weights
+-  + A classifier restreint à une feature utilisée est entraîné sur toutes les images, et l'erreur est calculée (erreur de 0 s'il s'est pas trompé, 1 s'il s'est trompé).
+-  + The error is then multiplied by the significance of the image
+   + le lowest error is chosen and then les poids sont mis à jour de cette manière : beta increases with the error hence the lower the error is, the higher alpha is. So a feature with a low error is given a higher importance in the strong classifier
+   + the weight of the image is updated for the next iteration by reducing it for the images that were correctly classified
+ 4. The final strong classifier is one, when the sum of the weighted features is higher than half of the sum of the weights
 
-==> it's mathematical operations but the idea is that we are trying to classify images as faces or non-faces, donc l'algo va 
-- run et dire si telle ou telle image est un visage ou non
-- calculer un taux d'erreur basé sur la somme pondérée des instances où la classification a été mauvaise, le but étant de réduire ce taux d'erreur
-- mettre à jour les poids (l'importance de chaque feature) selon un processus itératif, en pénalisant davantage les images mal classées (faux positifs et négatifs)
-Dans le but donc de rechercher des caractéristiques qui s'adaptent mieux à l'image. 
+Résumé : it's mathematical operations but the idea is that we are trying to classify images as faces or non-faces. L'algo va run et dire si telle ou telle image est un visage ou non, calculer un taux d'erreur basé sur la somme pondérée des instances où la classification a été mauvaise, le but étant de réduire ce taux d'erreur, mettre à jour les poids (l'importance de chaque feature) selon un processus itératif, en pénalisant davantage les images mal classées (faux positifs et négatifs), dans le but donc de rechercher des caractéristiques qui s'adaptent le mieux à l'image. 
 
 
 
-
-
-Viola and Jones have evaluated hundreds of thousands of classifiers that specialize in finding faces in images. But it would be computationally expensive to run all these classifiers on every region in every image, so they created something called a classifier cascade
 
 #### 4. cascading to distinguish whether an image contains a face or not
 
+Viola and Jones have evaluated hundreds of thousands of classifiers that specialize in finding faces in images. But it would be computationally expensive to run all these classifiers on every region in every image, so they created something called a classifier cascade
 Après avoir performing the adaboost training, on a la first and second most important features. Feature on the eyes and chins, where the eyes are darker than chins is the most significant. The second one indicates that the bridge of the nose is brighter than its surroundings. A fast way to check if the image contains a facial feature is to cascade the classifiers. If the first feature is approuved then it moves on for the second classifier until all of the features are approved. Then a face is detected. Much faster then trying all of the face detecting features.
 
 ![résumé du process](https://github.com/iciamyplant/facial_recognition/assets/57531966/3da197a5-8525-4aeb-82cb-a034d64e84dc)
