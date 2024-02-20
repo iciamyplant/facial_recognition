@@ -14,20 +14,25 @@
 
 **Face detection** = computer vision task in which we detect the presence of human faces and its location (x1, y1, x2, y2) within an image or a video stream. C'est un problème de regression, le but est de prédire les coordonnées (continues) du rectangle entourant le visage, cordonnée en haut à gauche (x1,y1) et coordonnée en bas à droite (x2,y2). Plusieurs obstacles à la détection : occlusion, orientation of face, expression, lighting, accessories. Au fil de temps nombreuses avancées : Viola Jones Algorithm, Histogram of oriented gradients (HOG), FDDB, *advent of deep learning techniques 2012, more robust face detectors have been developed*, Anootated Faces in the Wild, Pascal Face, SSD (slower then HOG), MTCNN (CNNs connected in a cascated manner, not fast for real time applications), UFDD, RetinaFace, MediaPipe (super real time performances), YuNet. 
 
+**Feature** = Pour détecter des visages (ou objets), l'ordinateur s'appuie sur des features = is a piece of information in an image that is relevant to solving a certain problem. It could be something as simple as a single pixel value, or more complex like edges, corners, and shapes. You can combine multiple simple features into a complex feature. Applying certain operations to an image produces information that could be considered features as well. Computer vision and image processing have a large collection of useful features and feature extracting operations.
+
 
 ### Viola-Jones Algorithm
 
-Nous allons implémenter un système de detection faciale utilisant Viola-Jones algorithm, easiest face recognition system you can create, but there are more advanced techniques to do the same project. L'objectif ici est surtout d'avoir un aperçu des bases du fonctionnement des systèmes de détection d'objets. 
+Nous allons implémenter un système de detection faciale utilisant Viola-Jones algorithm, easiest face recognition system you can create, but there are more advanced techniques to do the same project. L'objectif ici est surtout d'avoir un aperçu des bases du fonctionnement des systèmes de détection d'objets. Viola-Jones Algorithm was created mainly to work with frontal faces and operate with grayscale images, donc input image doit etre in grayscale. À partir d’une image, l’algorithme examine de nombreuses sous-régions plus petites et tente de trouver un visage en recherchant des caractéristiques spécifiques dans chaque sous-région. Il doit vérifier de nombreuses positions et échelles différentes, car une image peut contenir de nombreux visages de différentes tailles
 [Official Paper](https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf)
 [Bonne vidéo](https://www.youtube.com/watch?v=p9vq90NYHMs)
-[Tutoriel débutant](https://medium.com/@juanlux7/creating-a-face-recognition-system-from-scratch-83b709cd0560)
+[Tutoriel](https://realpython.com/traditional-face-detection-python/)
 
-Viola-Jones Algorithm was created mainly to work with frontal faces and operate with grayscale images. The way it works is by applying some kind of filter (kernel) throughout the whole image (pretty similar to what a Convolutional Neural network does), starting from the top left corner and checking each pixel, and while doing that is looking for human features like eyebrows, eyes, noses etc. Et pour ça, voilà les étapes :
+Etapes :
+1. Selecting Haar-like features
+2. Creating an integral image
+3. Running AdaBoost training
+4. Creating classifier cascades
 
-1. input the desired image to the system in greyscale
-2. Haar feature selection is used to detect the features of a face
+#### 1. Haar feature selection is used to detect the features of a face
 
-Many common features on a human face like: two eyes, two eyebrowns, one mouth, one nose ==> we can say that the human face has a pattern ==> we have to detect thoses features. Alfred Haar created features detector, and these detectors will look for specific places where they can fit, checking different sections of the image and look for patterns where each individual Haar feature detector can fit in to. Haar features are rectangular regions masked over an image. Within each rectangle, the summation of pixels is calculated and then the difference between the black and white regions is calculated. For exemple, eyes region is darker than cheeks. Then, renvoit une valeur totale qui doit être supérieure à un seuil pour considérer qu'il y a bien un visage.
+Many common features on a human face like: two eyes, two eyebrowns, one mouth, one nose ==> we have to detect thoses features. Alfred Haar created features detector, and these detectors will look for specific places where they can fit, checking different sections of the image and look for patterns where each individual Haar feature detector can fit in to. Haar features are rectangular regions masked over an image. Within each rectangle, the summation of pixels is calculated and then the difference between the black and white regions is calculated. For exemple, eyes region is darker than cheeks. Then, renvoit une valeur totale qui doit être supérieure à un seuil pour considérer qu'il y a bien un visage.
 
 <p align="center">
 <img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/594b9497-ff00-403a-ad79-86e54dd49637">
@@ -35,9 +40,9 @@ Many common features on a human face like: two eyes, two eyebrowns, one mouth, o
 
 Mais difficile de faire les calculs en testant les features sur toute l'image. In a 24*24 resolution image, there are 180k+ features, not all are usefull. So the goal is to only use the useful features and reduce processing time. Integral image is a solution to fasten the processing time
 
-3. an integral image is calculated to fasten the processing : in an integral image, every pixel is the summation of the pixels above and to the left of it (voir vidéo explication avec exemple).
+#### 3. an integral image is calculated to fasten the processing : in an integral image, every pixel is the summation of the pixels above and to the left of it (voir vidéo explication avec exemple).
 
-4. adaboost training to properly locate and train the features and pour améliorer the processing time
+#### 4. adaboost training to properly locate and train the features and pour améliorer the processing time
 
 All these feature detectors by their own are unable to perform good predictions, so they are considered weak classifiers. But what if we could use a lot of these weak classifiers at the same time in order to create a strong one ?
 Not all features are needed. We need to eliminate the undesired features to fasten the process and get accurate results. We need to train the features on the images to only use the right features in the right place. 
@@ -64,8 +69,10 @@ Après avoir performing the adaboost training, on a la first and second most imp
 
 ### Viola-Jones Algorithm implementation
 
-
-
+```
+pip install scikit-image
+pip install scikit-learn
+```
 
 
 ### CNN Model implementation
