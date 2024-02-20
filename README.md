@@ -30,7 +30,7 @@ Etapes :
 3. Running AdaBoost training
 4. Creating classifier cascades
 
-#### 1. Haar feature selection is used to detect the features of a face
+#### 1. Haar feature selection
 
 All human faces share some similarities : eye region is darker than the bridge of the nose, the cheeks are brighter than the eye region. A simple way to find out which region is lighter or darker is to sum up the pixel values of both regions and comparing them. The sum of pixel values in the darker region will be smaller than the sum of pixels in the lighter region. Plus il y a une différence, plus y a du constraste entre les deux régions. C'est sur ce principe que Alfred Haar created features detector.
 
@@ -62,7 +62,7 @@ Boosting is based on the following question: “Can a set of weak learners creat
 
 ![weakstrongclassifier](https://github.com/iciamyplant/facial_recognition/assets/57531966/770920d5-6e09-4be3-84c2-70057d1ded08)
 
-Comment décider du type et de la taille d'une feature qui entre dans le classificateur final ? Pour ça, Adaboost training, on entraîne le modèle avec un grand nombre d'images. 
+Comment décider du type et de la taille d'une feature qui entre dans le classificateur final ? Pour ça, Adaboost training (Adaboost is a Machine Learning algorithm), on entraîne le modèle avec un grand nombre d'images. 
 
 AdaBoost vérifie les performances de chaque feature qu'on lui fournit. 
 Pour calculer les performances d'une feature (weak classificateur), vous l'évaluez sur toutes les sous-régions de toutes les images utilisées pour l'entraînement. Certaines sous-régions produiront une réponse forte. Celles-ci seront classées comme positives, ce qui signifie que le weak classifier pense qu’elle contiennent un visage humain. Les sous-régions qui ne produisent pas de réponse forte ne contiennent pas de visage humain d'après le weak classifier, donc elles sont classées comme négatives.
@@ -82,11 +82,16 @@ Résumé : it's mathematical operations but the idea is that we are trying to cl
 
 
 
+#### 4. Cascading Classifiers
 
-#### 4. cascading to distinguish whether an image contains a face or not
+Viola et Jones ont évalué des centaines de milliers de classificateurs spécialisés dans la recherche de visages dans les images. Mais il serait coûteux en termes de calcul d'exécuter tous ces classificateurs sur chaque région de chaque image, c'est pourquoi ils ont créé une technique qu'on appelle une cascade de classificateurs.
 
-Viola and Jones have evaluated hundreds of thousands of classifiers that specialize in finding faces in images. But it would be computationally expensive to run all these classifiers on every region in every image, so they created something called a classifier cascade
-Après avoir performing the adaboost training, on a la first and second most important features. Feature on the eyes and chins, where the eyes are darker than chins is the most significant. The second one indicates that the bridge of the nose is brighter than its surroundings. A fast way to check if the image contains a facial feature is to cascade the classifiers. If the first feature is approuved then it moves on for the second classifier until all of the features are approved. Then a face is detected. Much faster then trying all of the face detecting features.
+On transforme le classificateur fort (constitué de milliers de classificateurs faibles) en une cascade où chaque classificateur faible représente une étape (permet d'éliminer rapidement les non-visages).
+- Lorsqu'une sous-région d'image entre dans la cascade, elle est évaluée par la première étape. Si cette étape évalue la sous-région comme positive (=pense qu'il y a un visage), le résultat de l'étape est *maybe*
+- Si une sous-région obtient un *maybe*, elle est envoyée à l'étape suivante de la cascade, et ainsi de suite
+- Processus répété jusqu'à ce que l'image traverse toutes les étapes de la cascade. Si tous les classificateurs approuvent l'image, elle est finalement classée comme visage humain
+- ==> classificateurs les plus performants doivent être placés au début de la cascade. Dans Viola-Jones les plus performants :  Feature on the eyes and chins, where the eyes are darker than chins is the most significant. The second one indicates that the bridge of the nose is brighter than its surroundings.
+
 
 ![résumé du process](https://github.com/iciamyplant/facial_recognition/assets/57531966/3da197a5-8525-4aeb-82cb-a034d64e84dc)
 
