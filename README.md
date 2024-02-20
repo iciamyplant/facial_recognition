@@ -60,23 +60,15 @@ Boosting is based on the following question: “Can a set of weak learners creat
 - **A strong learner** = is substantially better at picking faces from non-faces.
 - ==> The power of boosting comes from combining many (thousands) of weak classifiers into a single strong classifier
 
+![weakstrongclassifier](https://github.com/iciamyplant/facial_recognition/assets/57531966/770920d5-6e09-4be3-84c2-70057d1ded08)
+
 Fonctionnement Adaboost training : pour décider du type et de la taille d'une feature qui entre dans le classificateur final, AdaBoost vérifie les performances de chaque feature qu'on lui fournit. 
 Pour calculer les performances d'une feature (weak classificateur), vous l'évaluez sur toutes les sous-régions de toutes les images utilisées pour l'entraînement. Certaines sous-régions produiront une réponse forte. Celles-ci seront classées comme positives, ce qui signifie que le weak classifier pense qu’elle contiennent un visage humain. Les sous-régions qui ne produisent pas de réponse forte ne contiennent pas de visage humain d'après le weak classifier, donc elles sont classées comme négatives.
-Les weak classifiers qui ont bien fonctionné se voient attribuer une importance ou un poids plus élevé. Le résultat final est un classifier fort, également appelé boosted classifier, qui contient les weak classifiers les plus performants.
+Les weak classifiers qui ont bien fonctionné se voient attribuer une signifiance ou un poids plus élevé. Le résultat final est un classifier fort, également appelé boosted classifier, qui contient les weak classifiers les plus performants.
 
-
-
-
-
-
-Not all features are needed. We need to eliminate the undesired features to fasten the process and get accurate results. We need to train the features on the images to only use the right features in the right place. 
-- provide lots of facial image data to the algorithm training and non-facial images for differenciation.
-- Between the useful features, not all of them are of the same significance. Therefore, the creators of Viola Jones proposed what is called a strong feature combining weak features with their respective weights (= on combine des features faibles avec leurs poids respectifs, ce qui crée une feature forte). Combining features together is what make them strong. How can we find the weights of each feature ?
-- We give the system facial images indicating that they are positive examples and non facial images
+- We give the system facial images (positive examples) and non facial images (negative examples)
 - Initialize weights for each image
 - for each classifier, we normalize the weights. A classifier with one feature is used and trained on all images and the error is computed. If a face is detected on a facial image, the error is 0. Otherwise error is 1. Inversement for non facial images. The error is then multiplied by the significance of the image. The lower error is chosen, and the weights are updated
-
-==> it's mathematical operations but the idea is that we are trying to classify images as faces or non-faces, so essentially what this algorithm does is to penalize more those misclassified images (false positives and negatives) by incrementing its weights (this is their importance), so the algorithm is going to look for features that better adapt to the picture. Algorithm tries to reduce the error, iteration after iteration
 
 ==> it's mathematical operations but the idea is that we are trying to classify images as faces or non-faces, donc l'algo va 
 - run et dire si telle ou telle image est un visage ou non
@@ -84,6 +76,11 @@ Not all features are needed. We need to eliminate the undesired features to fast
 - mettre à jour les poids (l'importance de chaque feature) selon un processus itératif, en pénalisant davantage les images mal classées (faux positifs et négatifs)
 Dans le but donc de rechercher des caractéristiques qui s'adaptent mieux à l'image. 
 
+
+
+
+
+Viola and Jones have evaluated hundreds of thousands of classifiers that specialize in finding faces in images. But it would be computationally expensive to run all these classifiers on every region in every image, so they created something called a classifier cascade
 
 #### 4. cascading to distinguish whether an image contains a face or not
 
@@ -101,6 +98,7 @@ pip install scikit-learn
 ```
 
 
+
 ### CNN Model implementation
 
 [Tutorial](https://realpython.com/face-recognition-with-python/#prerequisites)
@@ -109,7 +107,14 @@ pip install scikit-learn
 
 [Face detection using pre-trained model - Google Collab](https://colab.research.google.com/github/dortmans/ml_notebooks/blob/master/face_detection.ipynb)
 
+**Transfert Learning** : Quelque chose qui se fait vachement en IA, l’idée générale c’est que y a des modèles pré-entrainés qui ont des poids de feature extraction quasi optimisés car ils ont été entrainés sur des dizaines de milliers d’images très différentes et sur des problématiques variées.
+Le but c’est alors de repartir de la partie extraction de features avec les poids optimisés et de rajouter des couches de classification derrière qui sont adaptés à notre problématique. On y passe nos données pour l’entrainement, et ce qui va se passer c’est que les poids des filtres ont déjà été optimisés et on va optimiser que la deuxième partie du réseau, ce qui fait qu’on a besoin de moins de données et que théoriquement, ca va plus vite.
 
+<p align="center">
+<img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/58c0e934-c387-4dd2-8626-8746ff3725ee">
+<p align="center">
+
+face_recognition to detect the face in each image and get its encoding. This is an array of numbers describing the features of the face, and it’s used with the main model underlying face_recognition to reduce training time while improving the accuracy of a large model. This is known as transfer learning.
 
 
 
@@ -159,10 +164,7 @@ Ici on aura besoin d’une base de donnée de nos visages et d’entrainer sur l
 [best datasets for emotion detection](https://paperswithcode.com/datasets?task=age-estimation&page=1)
 [YouTube Faces Database](https://www.cs.tau.ac.il/~wolf/ytfaces/)
 
-**Transfert Learning** : Quelque chose qui se fait vachement en IA, l’idée générale c’est que y a des modèles pré-entrainés qui ont des poids de feature extraction quasi optimisés car ils ont été entrainés sur des dizaines de milliers d’images très différentes et sur des problématiques variées.
-Le but c’est alors de repartir de la partie extraction de features avec les poids optimisés et de rajouter des couches de classification derrière qui sont adaptés à notre problématique. On y passe nos données pour l’entrainement, et ce qui va se passer c’est que les poids des filtres ont déjà été optimisés et on va optimiser que la deuxième partie du réseau, ce qui fait qu’on a besoin de moins de données et que théoriquement, ca va plus vite.
 
-![trasnfertlearning](https://github.com/iciamyplant/facial_recognition/assets/57531966/58c0e934-c387-4dd2-8626-8746ff3725ee)
 [Face Recognition Model Using Transfer Learning - Medium](https://python.plainenglish.io/face-recognition-model-using-transfer-learning-9554340e6c9d)
 [Face recognition using Transfer learning and VGG16 - Medium](https://medium.com/analytics-vidhya/face-recognition-using-transfer-learning-and-vgg16-cf4de57b9154)
 [Face Recognition using Transfer Learning on MobileNet - Medium](https://medium.com/analytics-vidhya/face-recognition-using-transfer-learning-on-mobilenet-cf632e25353e)
