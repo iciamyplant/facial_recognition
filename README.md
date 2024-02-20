@@ -53,9 +53,22 @@ Calcul : in an integral image, every pixel is the summation of the pixels above 
 
 But how do you decide which of these features and in what sizes to use for finding faces in images? This is solved by a machine learning algorithm called **boosting**. Specifically, we will learn about AdaBoost (Adaptive Boosting)
 
-#### 4. adaboost training to properly locate and train the features and pour améliorer the processing time
+#### 3. Running AdaBoost training
 
-All these feature detectors by their own are unable to perform good predictions, so they are considered weak classifiers. But what if we could use a lot of these weak classifiers at the same time in order to create a strong one ?
+Boosting is based on the following question: “Can a set of weak learners create a single strong learner?” 
+- **A weak learner (or weak classifier)** = is defined as a classifier that is only slightly better than random guessing. In face detection, this means that a weak learner can classify a subregion of an image as a face or not-face only slightly better than random guessing. In the Viola-Jones algorithm, each Haar-like feature represents a weak learner, by their own the detectors are unable to perform realy good predictions
+- **A strong learner** = is substantially better at picking faces from non-faces.
+- ==> The power of boosting comes from combining many (thousands) of weak classifiers into a single strong classifier
+
+Fonctionnement Adaboost training : pour décider du type et de la taille d'une feature qui entre dans le classificateur final, AdaBoost vérifie les performances de chaque feature qu'on lui fournit. 
+Pour calculer les performances d'une feature (weak classificateur), vous l'évaluez sur toutes les sous-régions de toutes les images utilisées pour l'entraînement. Certaines sous-régions produiront une réponse forte. Celles-ci seront classées comme positives, ce qui signifie que le weak classifier pense qu’elle contiennent un visage humain. Les sous-régions qui ne produisent pas de réponse forte ne contiennent pas de visage humain d'après le weak classifier, donc elles sont classées comme négatives.
+Les weak classifiers qui ont bien fonctionné se voient attribuer une importance ou un poids plus élevé. Le résultat final est un classifier fort, également appelé boosted classifier, qui contient les weak classifiers les plus performants.
+
+
+
+
+
+
 Not all features are needed. We need to eliminate the undesired features to fasten the process and get accurate results. We need to train the features on the images to only use the right features in the right place. 
 - provide lots of facial image data to the algorithm training and non-facial images for differenciation.
 - Between the useful features, not all of them are of the same significance. Therefore, the creators of Viola Jones proposed what is called a strong feature combining weak features with their respective weights (= on combine des features faibles avec leurs poids respectifs, ce qui crée une feature forte). Combining features together is what make them strong. How can we find the weights of each feature ?
@@ -71,14 +84,16 @@ Not all features are needed. We need to eliminate the undesired features to fast
 - mettre à jour les poids (l'importance de chaque feature) selon un processus itératif, en pénalisant davantage les images mal classées (faux positifs et négatifs)
 Dans le but donc de rechercher des caractéristiques qui s'adaptent mieux à l'image. 
 
-5. cascading to distinguish whether an image contains a face or not
+
+#### 4. cascading to distinguish whether an image contains a face or not
+
 Après avoir performing the adaboost training, on a la first and second most important features. Feature on the eyes and chins, where the eyes are darker than chins is the most significant. The second one indicates that the bridge of the nose is brighter than its surroundings. A fast way to check if the image contains a facial feature is to cascade the classifiers. If the first feature is approuved then it moves on for the second classifier until all of the features are approved. Then a face is detected. Much faster then trying all of the face detecting features.
 
 ![résumé du process](https://github.com/iciamyplant/facial_recognition/assets/57531966/3da197a5-8525-4aeb-82cb-a034d64e84dc)
 
 
 
-### Viola-Jones Algorithm implementation
+### Pre-trained Viola-Jones from OpenCV implementation
 
 ```
 pip install scikit-image
