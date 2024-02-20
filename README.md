@@ -34,19 +34,24 @@ Etapes :
 
 All human faces share some similarities : eye region is darker than the bridge of the nose, the cheeks are brighter than the eye region. A simple way to find out which region is lighter or darker is to sum up the pixel values of both regions and comparing them. The sum of pixel values in the darker region will be smaller than the sum of pixels in the lighter region. Plus il y a une différence, plus y a du constraste entre les deux régions. C'est sur ce principe que Alfred Haar created features detector.
 
-Une Haar feature prend une partie rectangulaire d'une image et divise ce rectangle en plusieurs parties. 4 basic types of Haar-like features : 
-
-Alfred Haar created features detector, and these detectors will look for specific places where they can fit. 
-
-Haar features are rectangular regions masked over an image. Within each rectangle, the summation of pixels is calculated and then the difference between the black and white regions is calculated. For exemple, eyes region is darker than cheeks. Then, renvoit une valeur totale qui doit être supérieure à un seuil pour considérer qu'il y a bien un visage.
+Une Haar feature prend une partie rectangulaire d'une image et divise ce rectangle en plusieurs parties. 4 basic types of Haar-like features : Horizontal feature with two rectangles & Vertical feature with two rectangles (utiles pour détecter les bords), Vertical feature with three rectangles (detects lines), Diagonal feature with four rectangles (deteclte les caractéristiques diagonales) and these features will look for specific places where they can fit. The value of the feature is calculated as a single number: the sum of pixel values in the black area minus the sum of pixel values in the white area. For uniform areas like a wall, this number would be close to zero and won’t give you any meaningful information. To be useful, a Haar-like feature needs to give you a large number, meaning that the areas in the black and white rectangles are very different. There are known features that perform very well to detect human faces. On peut utiliser ce principe pour déterminer quelles zones d'une image donnent une réponse forte (un grand nombre) pour une feature spécifique. On peut combiner many of these features to understand if an image region contains a human face.
 
 <p align="center">
-<img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/594b9497-ff00-403a-ad79-86e54dd49637">
+<img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/3f78e329-af35-4101-a998-fb82a1857a54">
 <p align="center">
 
-Mais difficile de faire les calculs en testant les features sur toute l'image. In a 24*24 resolution image, there are 180k+ features, not all are usefull. So the goal is to only use the useful features and reduce processing time. Integral image is a solution to fasten the processing time
+As mentioned, the Viola-Jones algorithm calculates a lot of these features in many subregions of an image. This quickly becomes computationally expensive: it takes a lot of time using the limited resources of a computer. In a 24*24 resolution image, there are 180k+ features, not all are usefull. To tackle this problem, Viola and Jones used integral images to fasten the processing time
 
-#### 3. an integral image is calculated to fasten the processing : in an integral image, every pixel is the summation of the pixels above and to the left of it (voir vidéo explication avec exemple).
+#### 2. Creating an integral image
+
+**integral image** = name of a data structure & an algorithm used to obtain this data structure = moyen rapide et efficace de calculer la somme des valeurs de pixels dans une image ou une partie rectangulaire d’une image. L'image intégrale peut être calculée en un seul passage sur l'image originale. 
+Calcul : in an integral image, every pixel is the summation of the pixels above and to the left of it.
+
+<p align="center">
+<img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/ce32c8c1-b8a3-4251-9346-6c6b2160b899">
+<p align="center">
+
+But how do you decide which of these features and in what sizes to use for finding faces in images? This is solved by a machine learning algorithm called **boosting**. Specifically, we will learn about AdaBoost (Adaptive Boosting)
 
 #### 4. adaboost training to properly locate and train the features and pour améliorer the processing time
 
