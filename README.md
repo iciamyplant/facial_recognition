@@ -81,7 +81,6 @@ Les weak classifiers qui ont bien fonctionné se voient attribuer une signifianc
 Résumé : it's mathematical operations but the idea is that we are trying to classify images as faces or non-faces. L'algo va run et dire si telle ou telle image est un visage ou non, calculer un taux d'erreur basé sur la somme pondérée des instances où la classification a été mauvaise, le but étant de réduire ce taux d'erreur, mettre à jour les poids (l'importance de chaque feature) selon un processus itératif, en pénalisant davantage les images mal classées (faux positifs et négatifs), dans le but donc de rechercher des caractéristiques qui s'adaptent le mieux à l'image. 
 
 
-
 #### 4. Cascading Classifiers
 
 Viola et Jones ont évalué des centaines de milliers de classificateurs spécialisés dans la recherche de visages dans les images. Mais il serait coûteux en termes de calcul d'exécuter tous ces classificateurs sur chaque région de chaque image, c'est pourquoi ils ont créé une technique qu'on appelle une cascade de classificateurs.
@@ -92,26 +91,17 @@ On transforme le classificateur fort (constitué de milliers de classificateurs 
 - Processus répété jusqu'à ce que l'image traverse toutes les étapes de la cascade. Si tous les classificateurs approuvent l'image, elle est finalement classée comme visage humain
 - ==> classificateurs les plus performants doivent être placés au début de la cascade. Dans Viola-Jones les plus performants :  Feature on the eyes and chins, where the eyes are darker than chins is the most significant. The second one indicates that the bridge of the nose is brighter than its surroundings.
 
-
 ![résumé du process](https://github.com/iciamyplant/facial_recognition/assets/57531966/3da197a5-8525-4aeb-82cb-a034d64e84dc)
 
 
-
-### Pre-trained Viola-Jones from OpenCV implementation
-
-```
-pip install scikit-image
-pip install scikit-learn
-```
+### Face detection model from scratch
 
 
 
-### CNN Model implementation
-
-[Tutorial](https://realpython.com/face-recognition-with-python/#prerequisites)
 
 ### Face detection using pre-trained model
 
+[CNN Tutorial pre trained model](https://realpython.com/face-recognition-with-python/#prerequisites)
 [Face detection using pre-trained model - Google Collab](https://colab.research.google.com/github/dortmans/ml_notebooks/blob/master/face_detection.ipynb)
 
 **Transfert Learning** : Quelque chose qui se fait vachement en IA, l’idée générale c’est que y a des modèles pré-entrainés qui ont des poids de feature extraction quasi optimisés car ils ont été entrainés sur des dizaines de milliers d’images très différentes et sur des problématiques variées.
