@@ -19,7 +19,7 @@
 
 ### Viola-Jones Algorithm
 
-Nous allons implémenter un système de detection faciale utilisant Viola-Jones algorithm, easiest face recognition system you can create, but there are more advanced techniques to do the same project. L'objectif ici est surtout d'avoir un aperçu des bases du fonctionnement des systèmes de détection d'objets. Viola-Jones Algorithm was created mainly to work with frontal faces and operate with grayscale images, donc input image doit etre in grayscale. À partir d’une image, l’algorithme examine de nombreuses sous-régions plus petites et tente de trouver un visage en recherchant des caractéristiques spécifiques dans chaque sous-région. Il doit vérifier de nombreuses positions et échelles différentes, car une image peut contenir de nombreux visages de différentes tailles
+Nous allons implémenter un système de detection faciale utilisant Viola-Jones algorithm, easiest face recognition system you can create, but there are more advanced techniques to do the same project. L'objectif ici est surtout d'avoir un aperçu des bases du fonctionnement des systèmes de détection d'objets. Viola-Jones Algorithm was created mainly to work with frontal faces and operate with grayscale images, donc input image doit etre in grayscale. À partir de cette image, l’algorithme examine de nombreuses sous-régions plus petites et tente de trouver un visage en recherchant des caractéristiques spécifiques dans chaque sous-région. Il doit vérifier de nombreuses positions et échelles différentes, car une image peut contenir de nombreux visages de différentes tailles
 [Official Paper](https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-cvpr-01.pdf)
 [Bonne vidéo](https://www.youtube.com/watch?v=p9vq90NYHMs)
 [Tutoriel](https://realpython.com/traditional-face-detection-python/)
@@ -32,7 +32,13 @@ Etapes :
 
 #### 1. Haar feature selection is used to detect the features of a face
 
-Many common features on a human face like: two eyes, two eyebrowns, one mouth, one nose ==> we have to detect thoses features. Alfred Haar created features detector, and these detectors will look for specific places where they can fit, checking different sections of the image and look for patterns where each individual Haar feature detector can fit in to. Haar features are rectangular regions masked over an image. Within each rectangle, the summation of pixels is calculated and then the difference between the black and white regions is calculated. For exemple, eyes region is darker than cheeks. Then, renvoit une valeur totale qui doit être supérieure à un seuil pour considérer qu'il y a bien un visage.
+All human faces share some similarities : eye region is darker than the bridge of the nose, the cheeks are brighter than the eye region. A simple way to find out which region is lighter or darker is to sum up the pixel values of both regions and comparing them. The sum of pixel values in the darker region will be smaller than the sum of pixels in the lighter region. Plus il y a une différence, plus y a du constraste entre les deux régions. C'est sur ce principe que Alfred Haar created features detector.
+
+Une Haar feature prend une partie rectangulaire d'une image et divise ce rectangle en plusieurs parties. 4 basic types of Haar-like features : 
+
+Alfred Haar created features detector, and these detectors will look for specific places where they can fit. 
+
+Haar features are rectangular regions masked over an image. Within each rectangle, the summation of pixels is calculated and then the difference between the black and white regions is calculated. For exemple, eyes region is darker than cheeks. Then, renvoit une valeur totale qui doit être supérieure à un seuil pour considérer qu'il y a bien un visage.
 
 <p align="center">
 <img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/594b9497-ff00-403a-ad79-86e54dd49637">
