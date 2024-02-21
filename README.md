@@ -99,7 +99,8 @@ On transforme le classificateur fort (constitué de milliers de classificateurs 
 
 
 ### Face detection with CNN (= réseaux de neurones convolutifs)
-TensorFlow, Pytorch
+
+2 principaux gros outils pour faire du DL = **TensorFlow** = Open source framework developed by Google to build various machine learning and deep learning models publié en 2015. For exemple, can be used to train and execute : NLP, neural network image recognition, digit classification, etc. Tensorflow is focus to reduce the complexity of implementing computations on large numerical datasets. Et **Pytorch** = framework de deep learning basé sur Torch, développé par le groupe de recherche AI de Facebook, publié en open-source en 2017, écrit en python.
 
 - the input will be the individuals pixels
 - and the oupout the patterns we are trying to classify
@@ -128,6 +129,8 @@ L’idée générale est que le réseau va apprendre par lui même ou regarder s
 [Tutoriel, Face Detection Model with Python and Tensorflow from scratch](https://www.youtube.com/watch?v=N_W4EYtsa10)
 
 
+
+
 [CNN Tutorial pre trained model](https://realpython.com/face-recognition-with-python/#prerequisites)
 [Face detection using pre-trained model - Google Collab](https://colab.research.google.com/github/dortmans/ml_notebooks/blob/master/face_detection.ipynb)
 
@@ -150,7 +153,9 @@ face_recognition to detect the face in each image and get its encoding. This is 
 # 2. Facial recognition 
 
 **Facial recognition** = involves identifying the face in the image as belonging to person X and not person Y
-**Facial analysis** = tries to understand something about people from their facial features, like determining their age, gender, or the emotion they are displaying.
+
+**Facial analysis** = tries to understand something about people from their facial features, like determining their age, gender, or the emotion they are displaying
+
 **Facial tracking** = is mostly present in video analysis and tries to follow a face and its features (eyes, nose, and lips) from frame to frame
 
 Objectif : réussir à reconnaître le visage + analyser le genre et la tranche d'âge
