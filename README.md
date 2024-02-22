@@ -164,7 +164,7 @@ Objectif : réussir à reconnaître le visage + analyser le genre et la tranche 
 ### Classification h/f et âge from scratch
 Classification, le but est d'associer un label à une image
 Ici on aura besoin d’une base de donnée de nos visages et d’entrainer sur les labels qu’on veut, en choisissant bien les bonnes fonction de pertes en sortie du réseau (cross entropy pour classification, mean average error (ou MSE, RMSE) pour regression)
-
+https://we.tl/t-ac19uVjiDw
 [Age Estimation Bdd](https://paperswithcode.com/datasets?task=age-estimation&page=1)
 [best datasets for emotion detection](https://paperswithcode.com/datasets?task=age-estimation&page=1)
 [YouTube Faces Database](https://www.cs.tau.ac.il/~wolf/ytfaces/)
