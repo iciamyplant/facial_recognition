@@ -164,10 +164,83 @@ face_recognition to detect the face in each image and get its encoding. This is 
 Objectif : réussir à reconnaître le visage + analyser le genre et la tranche d'âge
 
 
-### Classification h/f et âge from scratch
+### Age recognition from scratch
+
+#### 1. Dataset
+
+Face_recognition/Age_Gender_Recognition/from_scratch/utkcropped [UtkCropped Base de données](https://www.kaggle.com/datasets/abhikjha/utk-face-cropped/data). The dataset consists of over 20,000 face images with annotations of age, gender, and ethnicity. Age from 0 to 116 years old. The images cover large variation in pose, facial expression, illumination, occlusion, resolution, etc. Files : age_genre_ethnicite.numero.jpg. Genre : (0=male, 1=female). Ethnicité : (0=white, 1=Black, 2=Asian, 3=Indian, 4=Hispanic)
+```
+os.chdir() # The os.chdir() method changes the current working directory to a specific path
+os.listdir # returns a list containing the names of the entries in the directory given by path
+.append # The append() method appends an element to the end of the list
+.split('_') #The split() method splits a string into a list. You can specify the separator, default separator is any whitespace
+```
+```
+plt.subplots(4, 5, figsize(=11,7)) #subplot() function takes three arguments : 4=row, 5=columns, figsize= figure size in centimenters or pixels
+plt.imshow # Display data as an image
+```
+#### 2. Training
+
+Pincipe : un modèle de Machine Learning est capable d’apprendre de façon autonome à partir d’un jeu de données, dans l’objectif de prédire des comportements sur un autre jeu de données. Pour cela, il trouve des relations sous-jacentes entre des variables explicatives indépendantes (les pixels cad l'image, X) et une variable cible dans le dataset initial (l'âge, y). Puis il utilise ces patterns pour prédire ou classifier des nouvelles données.
+
+Donc, il faut :
+- diviser le jeu de données initial en deux ensembles : une partie pour le training, une partie pour les tests (on a pris que les 2000 premières données pour que ça aille plus vite)
+- fit, cad entraîner sur une partie des données : X_train, y_train
+- notre modèle va trouver des relations sous-jacentes entre des variables explicatives indépendantes (X = les pixels) et une variable cible (y = l'âge)
+- puis on teste les capacités prédictives de notre modèle sur des nouvelles données : X_test, y_test
+- plusieurs  métriques peuvent être utilisées pour cette évaluation : dans le cas d’une régression linéaire, **le coefficient de détermination**, **la RMSE** et **la MAE** sont privilégiés. Dans le cas d’une classification, **l’accuracy, la précision, le recall et le F1-score** sont privilégiés. Ces scores sur l’ensemble test permettent donc de déterminer si le modèle est performant et à quel point il doit être amélioré avant de pouvoir prédire sur un nouveau dataset
+
+##### a. Séparation des données 
+```
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123) #train_test_split permet de faire cette séparation en deux ensembles, en apprentissage supervisé, prend en argument les deux arrays l'une avec les variables explicatives et l'autre la variable cible (= les labels), test_size = soit un nombre décimal compris entre 0 et 1 représentant une proportion du jeu de données, soit un nombre entier représentant un nombre d’exemples du jeu de données, random_state =  nombre qui contrôle la façon dont le générateur pseudo-aléatoire divise les données
+```
+
+##### b. Création du modèle & compilation
+```
+input_shape = (200,200,3)
+model = Sequential()
+model.add(Conv2D(filters=16, kernel_size=(5, 5), padding='valid', input_shape=input_shape, activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(rate=0.2))
+
+model.add(Conv2D(filters=32, kernel_size=(3, 3), padding='valid', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+
+model.add(Conv2D(filters=64, kernel_size=(3, 3), padding='valid', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(rate=0.2))
+
+model.add(Flatten())
+
+model.add(Dense(units=64, activation='relu'))
+model.add(Dropout(rate=0.2))
+model.add(Dense(units=1))
+
+model.summary()
+model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+```
+
+##### c. Entraînement
+```
+history = model.fit(X_train, y_train, validation_data=(X_test, y_test),
+                              epochs=10,  batch_size=32)
+```
+
+
+##### d. Prédiction
+
+
+
+
+
+
+### Gender recognition from scratch
+
+
 Classification, le but est d'associer un label à une image
 Ici on aura besoin d’une base de donnée de nos visages et d’entrainer sur les labels qu’on veut, en choisissant bien les bonnes fonction de pertes en sortie du réseau (cross entropy pour classification, mean average error (ou MSE, RMSE) pour regression)
-https://we.tl/t-ac19uVjiDw
+
 [Age Estimation Bdd](https://paperswithcode.com/datasets?task=age-estimation&page=1)
 [best datasets for emotion detection](https://paperswithcode.com/datasets?task=age-estimation&page=1)
 [YouTube Faces Database](https://www.cs.tau.ac.il/~wolf/ytfaces/)
