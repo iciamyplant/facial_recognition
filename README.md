@@ -1,7 +1,13 @@
 # Projet : 
 1. Detection du visage
+   + Viola-Jones Algorithm : understand the basics
+   + Face detection model from scratch
+   + Face detection using pre-trained model : Python and Tensorflow with VGG16 pre-trained
 2. Facial recognition
-4. Utiliser des modèles pré-entrainés pour l'expérience finale
+   + Age recognition from scratch
+   + Gender recognition from scratch
+   + Face recognition - Opencv & face_recognition
+3. Utiliser des modèles pré-entrainés pour l'expérience finale
 
 # 1. Detection du visage
 
@@ -98,7 +104,9 @@ On transforme le classificateur fort (constitué de milliers de classificateurs 
 ### Face detection model from scratch
 
 
-### Face detection with CNN (= réseaux de neurones convolutifs)
+### Face detection using pre-trained model : Python and Tensorflow with VGG16 pre-trained
+
+[Tutoriel, Face Detection Model with Python and Tensorflow from scratch](https://www.youtube.com/watch?v=N_W4EYtsa10)
 
 2 principaux gros outils pour faire du DL = **TensorFlow** = Open source framework developed by Google to build various machine learning and deep learning models publié en 2015. For exemple, can be used to train and execute : NLP, neural network image recognition, digit classification, etc. Tensorflow is focus to reduce the complexity of implementing computations on large numerical datasets. Et **Pytorch** = framework de deep learning basé sur Torch, développé par le groupe de recherche AI de Facebook, publié en open-source en 2017, écrit en python.
 
@@ -122,11 +130,6 @@ L’idée générale est que le réseau va apprendre par lui même ou regarder s
 
 ![process](https://github.com/iciamyplant/facial_recognition/assets/57531966/77f8cab4-b79b-42ba-b47d-2043f02bce48)
 
-
-
-### Face detection using pre-trained model : Python and Tensorflow with VGG16 pre-trained
-
-[Tutoriel, Face Detection Model with Python and Tensorflow from scratch](https://www.youtube.com/watch?v=N_W4EYtsa10)
 
 
 
