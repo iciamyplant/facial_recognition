@@ -197,12 +197,17 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 ```
 
 ##### b. Création du modèle & compilation
+
+modèle très classique avec des couches de convolutions successives (avec pooling et dropout). La couche de sortie est un seul neurone sans fonction d'activation pcq on est sur une régression.
+Exemple fonctionnement couches de convolutions succesives [vidéo](https://www.youtube.com/watch?v=JboZfxUjLSk)
+
 ```
+from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv2D, MaxPooling2D
 input_shape = (200,200,3)
 model = Sequential()
 model.add(Conv2D(filters=16, kernel_size=(5, 5), padding='valid', input_shape=input_shape, activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(rate=0.2))
+model.add(Dropout(rate=0.2)) #layer to avoid overfitting
 
 model.add(Conv2D(filters=32, kernel_size=(3, 3), padding='valid', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -211,7 +216,7 @@ model.add(Conv2D(filters=64, kernel_size=(3, 3), padding='valid', activation='re
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Dropout(rate=0.2))
 
-model.add(Flatten())
+model.add(Flatten()) #transforme en une liste de pixels
 
 model.add(Dense(units=64, activation='relu'))
 model.add(Dropout(rate=0.2))
@@ -221,12 +226,18 @@ model.summary()
 model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 ```
 
+<p align="center">
+<img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/a5d95992-5c02-4c37-bc79-b84d0089c016">
+<p align="center">
+
+
 ##### c. Entraînement
 ```
 history = model.fit(X_train, y_train, validation_data=(X_test, y_test),
                               epochs=10,  batch_size=32)
 ```
-
+**overfitting (ou sur-apprentissage)** = décrit une situation où le modèle construit est trop complexe (avec trop de variables explicatives par exemple), tel qu’il apprend parfaitement les données d’entraînement mais n’arrive pas à se généraliser sur d’autres données
+**underfitting (ou sous-apprentissage)** = décrit une situation où le modèle est trop simple ou mal choisi (choix d’une régression linéaire sur des données ne respectant pas ses hypothèses par exemple), tel qu’il apprend mal
 
 ##### d. Prédiction
 
