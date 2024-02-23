@@ -103,8 +103,9 @@ On transforme le classificateur fort (constitué de milliers de classificateurs 
 
 ### CNN : utilisé aujourd'hui
 
-[Explication video debutant](https://www.youtube.com/watch?v=QzY57FaENXg)
-[Explication un peu plus poussée de Science4all](https://www.youtube.com/watch?v=zG_5OtgxfAg&t=305s)
+[Explication video debutant](https://www.youtube.com/watch?v=QzY57FaENXg) ;
+[Explication un peu plus poussée de Science4all](https://www.youtube.com/watch?v=zG_5OtgxfAg&t=305s) ;
+[Explication bien qui fait un pont avec les haar-like feature à 7:19](https://www.youtube.com/watch?v=YRhxdVk_sIs)
 
 Mais depuis l'avènement de techniques de deep learning, de nouvelles méthodes de computer vision plus robustes ont été développées. Le DL fonctionne particulièrement bien sur les données non structurées (information that is not arranged according to a preset data model or schema, pas besoin de la traiter avant utilisation) type image ou texte. Mais pour faire du computer vision, on va pas faire un réseau classique avec plein de couches de neurones successives, on va faire ce qu’on **appelle un CNN (Convolutional Neural Network)** qui est particulièrement adpatés aux images. Un **regular neural network** se compose d'une input layer (accepts input in different forms), hidden layers (perform calculations on these inputs), and an output layer (delivers the outcome of the calculations and extractions). Each of these layers contain neurons that are connected to neurons in the previous layer and each neuron has its own weight. Alors que a **CNN** = is a type of neural network, that is most often applied to image processing problems and NLP. Et voilà comment fonctionne a CNN :
 
