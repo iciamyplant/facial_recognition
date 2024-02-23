@@ -101,7 +101,37 @@ On transforme le classificateur fort (constitué de milliers de classificateurs 
 
 
 
-### Face detection model from scratch
+### CNN : utilisé aujourd'hui
+
+Mais depuis l'avènement de techniques de deep learning, de nouvelles méthodes de computer vision plus robustes ont été développées. Le DL fonctionne particulièrement bien sur les données non structurées (information that is not arranged according to a preset data model or schema, pas besoin de la traiter avant utilisation) type image ou texte. Mais pour faire du computer vision, on va pas faire un réseau classique avec plein de couches de neurones successives, on va faire ce qu’on **appelle un CNN (Convolutional Neural Network)** qui est particulièrement adpatés aux images. [Explication video debutant](https://www.youtube.com/watch?v=QzY57FaENXg). Un **regular neural network** se compose d'une input layer (accepts input in different forms), hidden layers (perform calculations on these inputs), and an output layer (delivers the outcome of the calculations and extractions). Each of these layers contain neurons that are connected to neurons in the previous layer and each neuron has its own weight. Alors que a **CNN** = is a type of neural network, that is most often applied to image processing problems and NLP. Et voilà comment fonctionne a CNN :
+
+Les CNN se basent sur un concept :  **les filtres de convolutions**. Un filtre de convolution est une matrice qui va traverser toute l’image de gauche à droite et de bas en haut en appliquant successivement des opérations de convolution, i.e. des sommes de produits termes à termes. Quand un filtre se propage sur une image, il somme les résultats de ces opérations de convolution sur les différents canaux de couleur. Cette logique est généralisable à toute donnée d’input qui est composée de plusieurs couches de matrices à 2 dimensions.
+
+- les CNN se composent d'une superposition de couches de neurones (comme dans les reglar neural networks) qui analysent les imgages. Chaque couche correspond au calcul de representation de plus en plus abstraite du contenu de l'image (par exemple une couche pour la luminosité et couleur, différentes correlations entre les pixels voisins, une couche pour mettre à bout ces correlations pour identifier des lignes directrices,..). Le réseau de neurone calcule ainsi une abstraction croissante des données. Ce qui lui permet de calculer une représentation sémantique de l'image.
+- Chaque neurone de chaque couche intermediaire n'est exposé qu'à un champ récépteur particulier (cad une toute petite région de l'image, kernel_size), et l'analyse de ce champ récépteur et la même que l'analyse qu'effectue un autre neurone de la même couche avec son propre champ récepteur.
+- Exemple = imaginons une couche qui analyse la luminosité, le premier neurone n'analyse qu'une toute petite région de l'image, et le neurone va multiplier la luminosité de chaque pixel par un pois sinaptique, et calculer la somme, puis calculer la somme des luminosités pondérées de tous les pixels de la région. Puis activation = cad qu'on va retenir que la partie positive du résultat (fonction d'activation relu). Les pois synaptiques forment alors une matrice dite de convolution (filtre). Et l'idée des CNN c'est d'utiliser la même matrice de convolution pour tous les champs recepteurs de l'image. Donc les autres neurones d'une même couche appliquerons les mêmes calculs mais sur des regions différentes de l'image.
+- C'est à dire que pour une seule et même région de l'image, elle sera analyser par des neurones mais de différentes couches,  mais chacun de ces neurones utilise une matrice de convolution différente. Donc chaque sous-region sera traduite par un certain nombre de nombres qui résume le contenu de cette région. Et ce sont ces matrices de convolution qu'on va chercher à améliorer.
+- On va donc appliquer plusieurs couches de convolutions les unes après les autres, ce qui va en fait correspondre à la phase de "feature extraction”
+- Mais ce faisant on ne diminue pas la taille des données à analyser, plus y a de filtres plus on augmente la dimension des données, donc on ajoute généralement une phase de réduction de la dimensionnalité qui revient a résumer l'information de plusieurs neurones voisins en une seule information (=pooling).
+- On va ensuite applatir notre dernière image, utiliser le vecteur qui nous est donné dans un réseau dense et confronter la prédicition qui est faite avec la réalité. Encore une fois on a une fonction de perte à minimiser, le but est qu’au fur et à mesure, les prédicitions soient de plus en plus proches de la réalité en optimisant les paramètres des filtres à chaque fois qu’on passe dans le réseau.
+- L’idée générale est que le réseau va apprendre par lui même où regarder sur l’image grâce aux différents filtres, en fonction de la classification/régression qu’on a envie de faire.
+
+
+
+
+![filtreconvolution](https://github.com/iciamyplant/facial_recognition/assets/57531966/915a15cc-d503-4b3b-a1a7-40e28b520edc)
+
+On appelle ca un filtre car ca va modifier l’image en gros, par exemple t’as des filtres qui affichent le gradient ou qui détectent les bords, ce genre de trucs.
+<p align="center">
+<img width="450" src="https://github.com/iciamyplant/facial_recognition/assets/57531966/660e37d0-b299-417f-9818-77c54c1ffb7d">
+<p align="center">
+
+![process](https://github.com/iciamyplant/facial_recognition/assets/57531966/77f8cab4-b79b-42ba-b47d-2043f02bce48)
+
+
+
+
+
 
 
 ### Face detection using pre-trained model : Python and Tensorflow with VGG16 pre-trained
@@ -113,25 +143,14 @@ On transforme le classificateur fort (constitué de milliers de classificateurs 
 - the input will be the individuals pixels
 - and the oupout the patterns we are trying to classify
 
-Ici on va utiliser du Deep Learning (apprentissage profond et réseaux de neurones), fonctionne particulièrement bien sur les données non structurées (information that is not arranged according to a preset data model or schema, pas besoin de la traiter avant utilisation) type image ou texte. Mais on va pas faire un réseau classique avec plein de couches de neurones successives, on va faire ce qu’on **appelle un CNN (Convolutional Neural Network) qui se base sur des filtres de convolutions** et qui sont particulièrement adpatés aux images
-[Explication video debutant](https://www.youtube.com/watch?v=QzY57FaENXg)
-
-**Un filtre de convolution** = matrice qui va traverser toute l’image de gauche à droite et de bas en haut en appliquant successivement des opérations de convolution, i.e. des sommes de produits termes à termes. Quand un filtre se propage sur une image, il somme les résultats de ces opérations de convolution sur les différents canaux de couleur. Cette logique est généralisable à toute donnée d’input qui est composée de plusieurs couches de matrices à 2 dimensions.
-
-![filtreconvolution](https://github.com/iciamyplant/facial_recognition/assets/57531966/915a15cc-d503-4b3b-a1a7-40e28b520edc)
-
-On appelle ca un filtre car ca va modifier l’image en gros, par exemple t’as des filtres qui affichent le gradient ou qui détectent les bords, ce genre de trucs.
-
-![applicationfiltre](https://github.com/iciamyplant/facial_recognition/assets/57531966/660e37d0-b299-417f-9818-77c54c1ffb7d)
-
-On va donc appliquer plusieurs couches de convolutions les unes après les autres, ce qui va en fait correspondre à la phase de "feature extraction”. On va ensuite applatir notre dernière image, utiliser le vecteur qui nous est donné dans un réseau dense et confronter la prédicition qui est faite avec la réalité. Encore une fois on a une fonction de perte à minimiser, le but est qu’au fur et à mesure, les prédicitions soient de plus en plus proches de la réalité en optimisant les paramètres des filtres à chaque fois qu’on passe dans le réseau.
-
-L’idée générale est que le réseau va apprendre par lui même ou regarder sur l’image grâce aux différents filtres, en fonction de la classification/régression qu’on a envie de faire.
-
-![process](https://github.com/iciamyplant/facial_recognition/assets/57531966/77f8cab4-b79b-42ba-b47d-2043f02bce48)
 
 
 
+
+
+
+
+[Vidéo en anglais où le mec résume à son bureau](https://www.youtube.com/watch?v=py5byOOHZM8)
 
 
 [CNN Tutorial pre trained model](https://realpython.com/face-recognition-with-python/#prerequisites)
@@ -231,31 +250,20 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 <p align="center">
 
 
-|Type of Layer|Caracteristics|Explication|
-|-----|-----|---|
-|Conv2d|filters=16, kernel_size=(5,5), padding='valid', input_shape=input_shape, activation='relu'||
-|Max_pooling|pool_size=(2, 2)||
-|Dropout|rate=0.2||
-|Conv2D|pool_size=(2, 2)||
-|MaxPooling2D|filters=32, kernel_size=(3, 3), padding='valid', activation='relu'||
-|Conv2D|filters=64, kernel_size=(3, 3), padding='valid', activation='relu'||
-|MaxPooling2D|pool_size=(2, 2)||
-|Dropout|rate=0.2||
-|Flatten|rate=0.2||
-|Dense|units=64, activation='relu'||
-|Dropout|rate=0.2||
-|Dense|units=1||
-
-
-**Regular neural network** = input layer (accepts input in different forms), hidden layers (perform calculations on these inputs), and an output layer (delivers the outcome of the calculations and extractions). Each of these layers contain neurons that are connected to neurons in the previous layer and each neuron has its own weight. Alors que a **CNN** = is a type of neural network, that is most often applied to image processing problems anywhere a computer is identifying objects in an image, also in NLP. Caractéristiques CNN :
-- c'est qu'il y a une superposition de couches de neurones (comme dans les reglar neural networks) qui analysent les imgages. Chaque couche correspond au calcul de representation de plus en plus abstraite du contenu de l'image (par exemple une couche pour la luminosité et couleur, différentes correlations entre les pixels voisins, une couche pour mettre à bout ces correlations pour identifier des lignes directrices,..). Le réseau de neurone calcule ainsi une abstraction croissante des données. Ce qui lui permet de calculer une représentation sémantique de l'image.
-- Chaque neurone de chaque couche intermediaire n'est exposé qu'à un champ récépteur particulier (cad une toute petite région de l'image), et l'analyse de ce champ récépteur et la même que l'analyse qu'effectue un autre neurone de la même couche avec son propre champ récepteur
-- Exemple = imaginons une couche qui analyse la luminosité, le premier neurone n'analyse qu'une toute petite région de l'image, et le neurone va multiplier la luminosité de chaque pixel par un pois sinaptique, et calculer la somme, puis calculer la somme des luminosités pondérées de tous les pixels de la région. Puis acitvation = cad qu'on va retenir que la partie positive du résultat (fonction d'activation relu). Les pois synaptiques forment alors une matrice dite de convolution (filtre). Et l'idée des CNN c'est d'utiliser la même matrice de convolution pour tous les champs recepteurs de l'image. Donc les autres neurones d'une même couche appliquerons les mêmes calculs mais sur des regions différentes de l'image. Ce qui permet de réduire drastiquement le nombre de paramètres de nos réseaux de neurones. Et donc y a plusieurs neurones de différentes couches différentes qui vont analyser la même sous région, mais chacun de ces neurones utilise une matrice de convolution différente. Donc chaque sous region sera traduite par un certain nombre de nombres qui résume le contenu de cette région. Et ce sont ces matrices de convolution qu'on va chercher à améliorer.
-- Mais ce faisant on ne diminue pas la taille des données à analyser, plus y a de filtres plus on augmente la dimension des données, donc on ajoute généralement une phase de réduction de la dimensionnalité qui revient a résumer l'information de plusieurs neurones voisins en une seule information (=pooling).
-
-
-
-
+|Type of Layer|Parameters|Layer Definition|Parameters Definition|
+|-----|-----|---|---|
+|Conv2d|filters=16, kernel_size=(5,5), padding='valid', input_shape=input_shape, activation='relu'|The first layer of a Convolutional Neural Network is always a Convolutional Layer. Convolutional layers apply a convolution operation to the input, passing the result to the next layer. Le type de convolution le plus couramment utilisé est la couche de convolution 2D, le kernel « glisse » sur les données d'entrée 2D, effectuant une multiplication par éléments |**kernel_size** = le kernel correspond à la convolution matrix et kernel_size est la taille qu'on donne à cette matrice. A kernel describes a filter that we are going to pass over an input image. To make it simple, the kernel will move over the whole image, from left to right, from top to bottom by applying a convolution product. The output of this operation is called a filtered image. **Filters** = ou kernels, chaqe kernel est un filtre différent qu'on applique à l'image, différentes oppérations. **activation** = on va retenir que la partie positive du résultat |
+|Max_pooling|pool_size=(2, 2)|||
+|Dropout|rate=0.2|||
+|Conv2D|pool_size=(2, 2)|||
+|MaxPooling2D|filters=32, kernel_size=(3, 3), padding='valid', activation='relu'|||
+|Conv2D|filters=64, kernel_size=(3, 3), padding='valid', activation='relu'|||
+|MaxPooling2D|pool_size=(2, 2)|||
+|Dropout|rate=0.2|||
+|Flatten|rate=0.2|||
+|Dense|units=64, activation='relu'|||
+|Dropout|rate=0.2|||
+|Dense|units=1|||
 
 
 ##### c. Entraînement
