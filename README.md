@@ -275,10 +275,10 @@ history = model.fit(X_train, y_train, validation_data=(X_test, y_test),
 
 ##### d. Prédiction
 
-
-
-
-
+```
+y_pred = model.predict(X_test)
+y_pred
+```
 
 ### Gender recognition from scratch
 
