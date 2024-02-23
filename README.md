@@ -231,6 +231,33 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 <p align="center">
 
 
+|Type of Layer|Caracteristics|Explication|
+|-----|-----|---|
+|Conv2d|filters=16, kernel_size=(5,5), padding='valid', input_shape=input_shape, activation='relu'||
+|Max_pooling|pool_size=(2, 2)||
+|Dropout|rate=0.2||
+|Conv2D|pool_size=(2, 2)||
+|MaxPooling2D|filters=32, kernel_size=(3, 3), padding='valid', activation='relu'||
+|Conv2D|filters=64, kernel_size=(3, 3), padding='valid', activation='relu'||
+|MaxPooling2D|pool_size=(2, 2)||
+|Dropout|rate=0.2||
+|Flatten|rate=0.2||
+|Dense|units=64, activation='relu'||
+|Dropout|rate=0.2||
+|Dense|units=1||
+
+
+**Regular neural network** = input layer (accepts input in different forms), hidden layers (perform calculations on these inputs), and an output layer (delivers the outcome of the calculations and extractions). Each of these layers contain neurons that are connected to neurons in the previous layer and each neuron has its own weight. Alors que a **CNN** = is a type of neural network, that is most often applied to image processing problems anywhere a computer is identifying objects in an image, also in NLP. Caractéristiques CNN :
+- c'est qu'il y a une superposition de couches de neurones (comme dans les reglar neural networks) qui analysent les imgages. Chaque couche correspond au calcul de representation de plus en plus abstraite du contenu de l'image (par exemple une couche pour la luminosité et couleur, différentes correlations entre les pixels voisins, une couche pour mettre à bout ces correlations pour identifier des lignes directrices,..). Le réseau de neurone calcule ainsi une abstraction croissante des données. Ce qui lui permet de calculer une représentation sémantique de l'image.
+- Chaque neurone de chaque couche intermediaire n'est exposé qu'à un champ récépteur particulier (cad une toute petite région de l'image), et l'analyse de ce champ récépteur et la même que l'analyse qu'effectue un autre neurone de la même couche avec son propre champ récepteur
+- Exemple = imaginons une couche qui analyse la luminosité, le premier neurone n'analyse qu'une toute petite région de l'image, et le neurone va multiplier la luminosité de chaque pixel par un pois sinaptique, et calculer la somme, puis calculer la somme des luminosités pondérées de tous les pixels de la région. Puis acitvation = cad qu'on va retenir que la partie positive du résultat (fonction d'activation relu). Les pois synaptiques forment alors une matrice dite de convolution (filtre). Et l'idée des CNN c'est d'utiliser la même matrice de convolution pour tous les champs recepteurs de l'image. Donc les autres neurones d'une même couche appliquerons les mêmes calculs mais sur des regions différentes de l'image. Ce qui permet de réduire drastiquement le nombre de paramètres de nos réseaux de neurones. Et donc y a plusieurs neurones de différentes couches différentes qui vont analyser la même sous région, mais chacun de ces neurones utilise une matrice de convolution différente. Donc chaque sous region sera traduite par un certain nombre de nombres qui résume le contenu de cette région. Et ce sont ces matrices de convolution qu'on va chercher à améliorer.
+- Mais ce faisant on ne diminue pas la taille des données à analyser, plus y a de filtres plus on augmente la dimension des données, donc on ajoute généralement une phase de réduction de la dimensionnalité qui revient a résumer l'information de plusieurs neurones voisins en une seule information (=pooling).
+
+
+
+
+
+
 ##### c. Entraînement
 ```
 history = model.fit(X_train, y_train, validation_data=(X_test, y_test),
