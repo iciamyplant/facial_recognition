@@ -10,7 +10,7 @@
 3. Utiliser des modèles pré-entrainés pour l'expérience finale
 
 # 1. Detection du visage
-https://we.tl/t-ieRkxXCIgG
+
 **Computer vision** =  discipline informatique permettant de construire des systèmes qui obtiennent des informations à partir d'images. Les images étant un ensemble de nombres avec une certaine structure, une matrice. Dans le cas d'une image en niveaux de gris, chaque nombre (pixel) représente une intensité différente allant de 0 (blanc) à 1 (noir pur) ==> de 0 à 255. Si nous travaillons avec des images colorées, alors la même matrice que ci-dessous, mais en 3 fois (RVB), chaque matrice représentant une intensité de couleur différente ==> 0.0.0 à 255.255.255
 
 <p align="center">
@@ -187,16 +187,7 @@ Objectif : réussir à reconnaître le visage + analyser le genre et la tranche 
 #### 1. Dataset
 
 Face_recognition/Age_Gender_Recognition/from_scratch/utkcropped [UtkCropped Base de données](https://www.kaggle.com/datasets/abhikjha/utk-face-cropped/data). The dataset consists of over 20,000 face images with annotations of age, gender, and ethnicity. Age from 0 to 116 years old. The images cover large variation in pose, facial expression, illumination, occlusion, resolution, etc. Files : age_genre_ethnicite.numero.jpg. Genre : (0=male, 1=female). Ethnicité : (0=white, 1=Black, 2=Asian, 3=Indian, 4=Hispanic)
-```
-os.chdir() # The os.chdir() method changes the current working directory to a specific path
-os.listdir # returns a list containing the names of the entries in the directory given by path
-.append # The append() method appends an element to the end of the list
-.split('_') #The split() method splits a string into a list. You can specify the separator, default separator is any whitespace
-```
-```
-plt.subplots(4, 5, figsize(=11,7)) #subplot() function takes three arguments : 4=row, 5=columns, figsize= figure size in centimenters or pixels
-plt.imshow # Display data as an image
-```
+
 #### 2. Training
 
 Pincipe : un modèle de Machine Learning est capable d’apprendre de façon autonome à partir d’un jeu de données, dans l’objectif de prédire des comportements sur un autre jeu de données. Pour cela, il trouve des relations sous-jacentes entre des variables explicatives indépendantes (les pixels cad l'image, X) et une variable cible dans le dataset initial (l'âge, y). Puis il utilise ces patterns pour prédire ou classifier des nouvelles données.
