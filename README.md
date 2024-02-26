@@ -10,7 +10,7 @@
 3. Utiliser des modèles pré-entrainés pour l'expérience finale
 
 # 1. Detection du visage
-
+https://we.tl/t-ieRkxXCIgG
 **Computer vision** =  discipline informatique permettant de construire des systèmes qui obtiennent des informations à partir d'images. Les images étant un ensemble de nombres avec une certaine structure, une matrice. Dans le cas d'une image en niveaux de gris, chaque nombre (pixel) représente une intensité différente allant de 0 (blanc) à 1 (noir pur) ==> de 0 à 255. Si nous travaillons avec des images colorées, alors la même matrice que ci-dessous, mais en 3 fois (RVB), chaque matrice représentant une intensité de couleur différente ==> 0.0.0 à 255.255.255
 
 <p align="center">
