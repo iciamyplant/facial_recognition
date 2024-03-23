@@ -243,17 +243,17 @@ model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 |Type of Layer|Parameters|Layer Definition|Parameters Definition|
 |-----|-----|---|---|
 |Conv2d|filters=16, kernel_size=(5,5), padding='valid', input_shape=input_shape, activation='relu'|The first layer of a Convolutional Neural Network is always a Convolutional Layer. Convolutional layers apply a convolution operation to the input, passing the result to the next layer. Le type de convolution le plus couramment utilisé est la couche de convolution 2D, le kernel « glisse » sur les données d'entrée 2D, effectuant une multiplication par éléments |**kernel_size** = le kernel correspond à la convolution matrix et kernel_size est la taille qu'on donne à cette matrice. A kernel describes a filter that we are going to pass over an input image. To make it simple, the kernel will move over the whole image, from left to right, from top to bottom by applying a convolution product. The output of this operation is called a filtered image. **Filters** = ou kernels, chaqe kernel est un filtre différent qu'on applique à l'image, différentes oppérations. **activation** = on va retenir que la partie positive du résultat |
-|Max_pooling|pool_size=(2, 2)|||
-|Dropout|rate=0.2|||
+|Max_pooling|pool_size=(2, 2)| Le but de cette couche est de réduire la taille des images sans modifier les features importantes de cette image. Max-Pool 2x2 va rendre une matrice de taille 2x2 ||
+|Dropout|rate=0.2|permet de réduire l’overfitting (manque de généralisation du modèle) lors de l’entraînement du modèle, on désactive temporairement certains neurones dans le réseau, ainsi que toutes ses connexions entrantes et sortantes, Le choix des neurones à désactiver est aléatoire. On attribue une probabilité p si Lorsque p = 0.1, chaque neurone a une chance sur 10 d’être désactivé, À chaque epoch, on applique cette désactivation aléatoire||
 |Conv2D|pool_size=(2, 2)|||
 |MaxPooling2D|filters=32, kernel_size=(3, 3), padding='valid', activation='relu'|||
 |Conv2D|filters=64, kernel_size=(3, 3), padding='valid', activation='relu'|||
 |MaxPooling2D|pool_size=(2, 2)|||
 |Dropout|rate=0.2|||
-|Flatten|rate=0.2|||
-|Dense|units=64, activation='relu'|||
+|Flatten|rate=0.2|used to convert the feature map that it received from the max-pooling layer into a format that the dense layers can understand||
+|Dense|units=64, activation='relu'|Dense Layer is used to classify image based on output from convolutional layers, Dense Layer is used to classify image based on output from convolutional layers.||
 |Dropout|rate=0.2|||
-|Dense|units=1|||
+|Dense|units=1|simple layer of neurons in which each neuron receives input from all the neurons of previous layer, Dense Layer is used to classify image based on output from convolutional layers ||
 
 
 ##### c. Entraînement
